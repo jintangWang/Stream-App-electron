@@ -7,7 +7,7 @@ const dashboardRoute = {
   path: '/dashboard',
   name: 'Dashboard',
   component: 'LAYOUT',
-  redirect: '/dashboard/analysis',
+  redirect: '/dashboard/workbench',
   meta: {
     title: 'routes.dashboard.dashboard',
     hideChildrenInMenu: true,
@@ -15,13 +15,13 @@ const dashboardRoute = {
   },
   children: [
     {
-      path: 'analysis',
-      name: 'Analysis',
-      component: '/dashboard/analysis/index',
+      path: 'workbench',
+      name: 'workbench',
+      component: '/dashboard/workbench/index',
       meta: {
         hideMenu: true,
         hideBreadcrumb: true,
-        title: 'routes.dashboard.analysis',
+        title: 'routes.dashboard.workbench',
         currentActiveMenu: '/dashboard',
         icon: 'bx:bx-home',
       },
@@ -175,16 +175,6 @@ const sysRoute = {
         ignoreKeepAlive: true,
       },
       component: '/demo/system/role/index',
-    },
-
-    {
-      path: 'menu',
-      name: 'MenuManagement',
-      meta: {
-        title: 'routes.demo.system.menu',
-        ignoreKeepAlive: true,
-      },
-      component: '/demo/system/menu/index',
     },
     {
       path: 'dept',

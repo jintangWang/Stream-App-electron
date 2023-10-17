@@ -1,11 +1,6 @@
 {
-  "name": "vben-admin",
+  "name": "stream-app",
   "version": "2.8.0",
-  "author": {
-    "name": "vben",
-    "email": "anncwb@126.com",
-    "url": "https://github.com/anncwb"
-  },
   "main": "dist/main/build.js",
   "build": {
     "appId": "xxx@gmail.com",
@@ -77,9 +72,9 @@
   "dependencies": {
     "@ant-design/colors": "^6.0.0",
     "@ant-design/icons-vue": "^6.1.0",
+    "@iconify/iconify": "^2.2.1",
     "@logicflow/core": "^0.6.16",
     "@logicflow/extension": "^0.6.16",
-    "@iconify/iconify": "^2.2.1",
     "@vue/runtime-core": "^3.2.31",
     "@vue/shared": "^3.2.31",
     "@vueuse/core": "^6.3.3",
@@ -89,10 +84,10 @@
     "axios": "^0.21.4",
     "codemirror": "^5.62.3",
     "cropperjs": "^1.5.12",
-    "electron-is-dev": "^1.2.0",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.0",
     "echarts": "^5.2.0",
+    "electron-is-dev": "^1.2.0",
     "intro.js": "^4.2.2",
     "lodash-es": "^4.17.21",
     "mockjs": "^1.1.0",
@@ -105,6 +100,7 @@
     "resize-observer-polyfill": "^1.5.1",
     "showdown": "^1.9.1",
     "sortablejs": "^1.14.0",
+    "swiper": "^10.3.1",
     "tinymce": "^5.9.2",
     "vditor": "^3.8.13",
     "vue": "^3.2.31",
@@ -197,26 +193,18 @@
     "vite-plugin-style-import": "^2.0.0",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-plugin-theme": "^0.8.1",
-    "wait-on": "^5.2.1",
     "vite-plugin-vue-setup-extend": "^0.1.0",
     "vite-plugin-windicss": "^1.4.2",
     "vue-eslint-parser": "^7.11.0",
-    "vue-tsc": "^0.3.0"
+    "vue-tsc": "^0.3.0",
+    "wait-on": "^5.2.1"
   },
   "resolutions": {
     "bin-wrapper": "npm:bin-wrapper-china",
     "rollup": "^2.56.3",
     "gifsicle": "5.2.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/anncwb/vue-vben-admin.git"
-  },
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/anncwb/vue-vben-admin/issues"
-  },
-  "homepage": "https://github.com/anncwb/vue-vben-admin",
   "engines": {
     "node": "^12 || >=14"
   }

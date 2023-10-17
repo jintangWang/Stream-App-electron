@@ -69,6 +69,7 @@ module.exports = {
       ],
       { severity: 'warning' },
     ],
+    'block-no-empty': null,
   },
   ignoreFiles: ['**/*.js', '**/*.jsx', '**/*.tsx', '**/*.ts'],
   overrides: [

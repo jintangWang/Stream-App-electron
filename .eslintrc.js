@@ -35,14 +35,14 @@ module.exports = {
     '@typescript-eslint/no-non-null-assertion': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unused-vars': [
-      'error',
+      'off',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
       },
     ],
     'no-unused-vars': [
-      'error',
+      'off',
       {
         argsIgnorePattern: '^_',
         varsIgnorePattern: '^_',
@@ -72,5 +72,7 @@ module.exports = {
       },
     ],
     'vue/multi-word-component-names': 'off',
+    'vue/first-attribute-linebreak': 0,
+    'vue/no-reserved-props': 0,
   },
 };
