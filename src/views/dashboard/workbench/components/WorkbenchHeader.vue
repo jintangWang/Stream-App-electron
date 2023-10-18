@@ -7,17 +7,17 @@
     </div>
     <div class="flex flex-1 justify-end md:mt-0 mt-4">
       <div class="flex flex-col justify-center text-right">
-        <span class="text-secondary"> 待办 </span>
-        <span class="text-2xl">2/10</span>
+        <span class="text-secondary"> 用户访问量 </span>
+        <span class="text-2xl">1234</span>
       </div>
 
       <div class="flex flex-col justify-center text-right md:mx-16 mx-12">
-        <span class="text-secondary"> 项目 </span>
-        <span class="text-2xl">8</span>
+        <span class="text-secondary"> 系统消息 </span>
+        <span class="text-2xl"> 321</span>
       </div>
       <div class="flex flex-col justify-center text-right md:mr-10 mr-4">
-        <span class="text-secondary"> 团队 </span>
-        <span class="text-2xl">300</span>
+        <span class="text-secondary"> 内容总数 </span>
+        <span class="text-2xl"> 5000</span>
       </div>
     </div>
   </div>
