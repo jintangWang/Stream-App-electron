@@ -26,11 +26,7 @@
     </FormItem>
 
     <ARow class="enter-x">
-      <ACol :span="12">
-        <!-- <FormItem>
-          <Checkbox v-model:checked="rememberMe" size="small">记住我</Checkbox>
-        </FormItem> -->
-      </ACol>
+      <ACol :span="12" />
       <ACol :span="12">
         <FormItem :style="{ 'text-align': 'right' }">
           <!-- No logic, you need to deal with it yourself -->
@@ -61,7 +57,7 @@
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button } from 'ant-design-vue';
+  import { Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '/@/hooks/web/useI18n';
@@ -86,7 +82,6 @@
 
   const formRef = ref();
   const loading = ref(false);
-  const rememberMe = ref(false);
 
   const formData = reactive({
     account: 'admin',
