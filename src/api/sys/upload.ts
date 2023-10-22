@@ -14,7 +14,8 @@ export function uploadApi(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
-      url: uploadUrl,
+      // url: uploadUrl,
+      url: '/basic-api/storage/upload',
       onUploadProgress,
     },
     params,
