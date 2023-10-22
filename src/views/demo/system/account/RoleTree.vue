@@ -1,12 +1,13 @@
 <template>
   <div class="m-4 mr-0 overflow-hidden bg-white">
     <BasicTree
-      title="部门列表"
+      :style="{ paddingTop: '8px' }"
+      title="角色列表"
       toolbar
       search
       :clickRowToExpand="false"
       :treeData="treeData"
-      :fieldNames="{ key: 'id', title: 'deptName' }"
+      :fieldNames="{ key: 'id', title: 'name' }"
       @select="handleSelect"
     />
   </div>
@@ -15,10 +16,10 @@
   import { defineComponent, onMounted, ref } from 'vue';
 
   import { BasicTree, TreeItem } from '/@/components/Tree';
-  import { getDeptList } from '/@/api/demo/system';
+  import { getRoleList } from '/@/api/demo/system';
 
   export default defineComponent({
-    name: 'DeptTree',
+    name: 'RoleTree',
     components: { BasicTree },
 
     emits: ['select'],
@@ -26,7 +27,7 @@
       const treeData = ref<TreeItem[]>([]);
 
       async function fetch() {
-        treeData.value = (await getDeptList()) as unknown as TreeItem[];
+        treeData.value = (await getRoleList()) as unknown as TreeItem[];
       }
 
       function handleSelect(keys) {
