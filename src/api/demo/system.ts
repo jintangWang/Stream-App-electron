@@ -21,7 +21,10 @@ enum Api {
 }
 
 export const getAccountList = (params: AccountParams) =>
-  defHttp.get<AccountListGetResultModel>({ url: Api.AccountList, params });
+  defHttp.get<AccountListGetResultModel>({
+    url: `/organizations/${params.roleId || 1}/users`,
+    params,
+  });
 
 export const getRoleList = () =>
   defHttp.get<DeptListGetResultModel>({ url: 'organizations/tree', params: { parentId: 1 } });

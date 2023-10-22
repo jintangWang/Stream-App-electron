@@ -107,8 +107,8 @@
         }
       }
 
-      function handleSelect(deptId = '') {
-        searchInfo.deptId = deptId;
+      function handleSelect(roleId = '') {
+        searchInfo.roleId = roleId;
         reload();
       }
 
