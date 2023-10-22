@@ -5,33 +5,30 @@ import { FormSchema } from '/@/components/Table';
 export const columns: BasicColumn[] = [
   {
     title: '用户名',
-    dataIndex: 'account',
+    dataIndex: 'username',
     width: 120,
   },
   {
-    title: '昵称',
-    dataIndex: 'nickname',
+    title: '性别',
+    dataIndex: 'gender',
+    customRender: ({ text }) => (text === 'MALE' ? '男' : '女'),
     width: 120,
   },
   {
-    title: '邮箱',
-    dataIndex: 'email',
-    width: 120,
+    title: '头像',
+    dataIndex: 'avatar',
+    width: 80,
   },
   {
-    title: '创建时间',
-    dataIndex: 'createTime',
+    title: '注册时间',
+    dataIndex: 'createdTime',
     width: 180,
   },
-  {
-    title: '角色',
-    dataIndex: 'role',
-    width: 200,
-  },
-  {
-    title: '备注',
-    dataIndex: 'remark',
-  },
+  // {
+  //   title: '角色',
+  //   dataIndex: 'role',
+  //   width: 200,
+  // },
 ];
 
 export const searchFormSchema: FormSchema[] = [

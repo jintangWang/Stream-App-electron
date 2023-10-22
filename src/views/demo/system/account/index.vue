@@ -2,8 +2,10 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <RoleTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
-      <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增账号</a-button>
+      <template #bodyCell="{ column, text }">
+        <template v-if="column.dataIndex === 'avatar'">
+          <img :src="baseUrl + text" alt="" class="w-40px mx-auto" />
+        </template>
       </template>
       <template #action="{ record }">
         <TableAction
@@ -47,11 +49,13 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
+  import { getAppEnvConfig } from '/@/utils/env';
 
   export default defineComponent({
     name: 'AccountManagement',
     components: { BasicTable, PageWrapper, RoleTree, AccountModal, TableAction },
     setup() {
+      const { VITE_GLOB_API_URL } = getAppEnvConfig();
       const go = useGo();
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
@@ -79,12 +83,6 @@
           slots: { customRender: 'action' },
         },
       });
-
-      function handleCreate() {
-        openModal(true, {
-          isUpdate: false,
-        });
-      }
 
       function handleEdit(record: Recordable) {
         console.log(record);
@@ -121,13 +119,13 @@
       return {
         registerTable,
         registerModal,
-        handleCreate,
         handleEdit,
         handleDelete,
         handleSuccess,
         handleSelect,
         handleView,
         searchInfo,
+        baseUrl: VITE_GLOB_API_URL,
       };
     },
   });
