@@ -1,7 +1,7 @@
 <template>
   <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="getUserInfo.avatar" />
+      <img :class="`${prefixCls}__header`" :src="baseUrl + getUserInfo.avatar" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
           {{ getUserInfo.realName }}
@@ -42,6 +42,7 @@
 
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
+  import { getAppEnvConfig } from '/@/utils/env';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
@@ -59,6 +60,7 @@
       theme: propTypes.oneOf(['dark', 'light']),
     },
     setup() {
+      const { VITE_GLOB_API_URL } = getAppEnvConfig();
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
@@ -106,6 +108,7 @@
         getShowDoc,
         register,
         getUseLockPage,
+        baseUrl: VITE_GLOB_API_URL,
       };
     },
   });
