@@ -9,7 +9,7 @@ const content: AppRouteModule = {
   component: LAYOUT,
   redirect: '/content/index',
   meta: {
-    orderNo: 100,
+    orderNo: 600,
     icon: 'ion:videocam-sharp',
     title: '媒体库',
     hideChildrenInMenu: true,

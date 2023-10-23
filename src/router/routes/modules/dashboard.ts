@@ -8,7 +8,7 @@ const dashboard: AppRouteModule = {
   component: LAYOUT,
   redirect: '/dashboard/workbench',
   meta: {
-    orderNo: 10,
+    orderNo: 200,
     icon: 'ion:grid-outline',
     title: '概览',
     hideChildrenInMenu: true,

@@ -8,7 +8,7 @@ const manage: AppRouteModule = {
   component: LAYOUT,
   redirect: '/manage/index',
   meta: {
-    orderNo: 100000,
+    orderNo: 800,
     hideChildrenInMenu: true,
     icon: 'mdi:upload',
     title: '流媒体上传',

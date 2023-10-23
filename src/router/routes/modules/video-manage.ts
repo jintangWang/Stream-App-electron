@@ -8,7 +8,7 @@ const manage: AppRouteModule = {
   component: LAYOUT,
   redirect: '/video-manage/index',
   meta: {
-    orderNo: 100000,
+    orderNo: 700,
     hideChildrenInMenu: true,
     icon: 'carbon:gui-management',
     title: '流媒体管理',
