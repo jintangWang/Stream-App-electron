@@ -2,11 +2,11 @@
   <template v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <FormItem name="account" class="enter-x">
+      <FormItem name="username" class="enter-x">
         <Input
           class="fix-auto-fill"
           size="large"
-          v-model:value="formData.account"
+          v-model:value="formData.username"
           placeholder="账号"
         />
       </FormItem>
@@ -81,6 +81,7 @@
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
+  import { registerApi } from '/@/api/sys/user';
 
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
@@ -90,9 +91,9 @@
   const loading = ref(false);
 
   const formData = reactive({
-    account: '',
-    password: '',
-    confirmPassword: '',
+    username: '张三',
+    password: '123456',
+    confirmPassword: '123456',
     tags: [],
     isVip: false,
   });
@@ -112,6 +113,15 @@
   async function handleRegister() {
     const data = await validForm();
     if (!data) return;
-    console.log(data);
+    try {
+      const param = {
+        username: data.username,
+        password: data.password,
+      };
+      const res = await registerApi(param);
+      console.log('res', res);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 </script>

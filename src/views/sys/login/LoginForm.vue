@@ -8,10 +8,10 @@
     v-show="getShow"
     @keypress.enter="handleLogin"
   >
-    <FormItem name="account" class="enter-x">
+    <FormItem name="username" class="enter-x">
       <Input
         size="large"
-        v-model:value="formData.account"
+        v-model:value="formData.username"
         placeholder="账号"
         class="fix-auto-fill"
       />
@@ -83,7 +83,7 @@
   const loading = ref(false);
 
   const formData = reactive({
-    account: 'admin',
+    username: 'admin',
     password: '123456',
   });
 
@@ -100,7 +100,7 @@
       loading.value = true;
       const userInfo = await userStore.login({
         password: data.password,
-        username: data.account,
+        username: data.username,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {

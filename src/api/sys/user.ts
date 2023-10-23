@@ -26,6 +26,16 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
 }
 
 /**
+ * @description: 注册
+ */
+export function registerApi(params: LoginParams) {
+  return defHttp.get<LoginResultModel>({
+    url: '/register',
+    params,
+  });
+}
+
+/**
  * @description: getUserInfo
  */
 export function getUserInfo() {
