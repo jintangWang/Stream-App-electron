@@ -25,17 +25,16 @@
       />
     </FormItem>
 
-    <ARow class="enter-x">
+    <!-- <ARow class="enter-x">
       <ACol :span="12" />
       <ACol :span="12">
         <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
           <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
             忘记密码
           </Button>
         </FormItem>
       </ACol>
-    </ARow>
+    </ARow> -->
 
     <FormItem class="enter-x">
       <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
