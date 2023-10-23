@@ -43,26 +43,26 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { PageWrapper } from '/@/components/Page'
+  import { PageWrapper } from '/@/components/Page';
   // import { useDesign } from '/@/hooks/web/useDesign'
-  import { Swiper, SwiperSlide } from 'swiper/vue'
-  import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules'
-  import listNewReleases from '/@/assets/json/listNewReleases.json'
-  import listMovies from '/@/assets/json/listMovies.json'
-  import 'swiper/css'
-  import 'swiper/css/navigation'
-  import 'swiper/css/pagination'
-  import { PlayCircleOutlined } from '@ant-design/icons-vue'
+  import { Swiper, SwiperSlide } from 'swiper/vue';
+  import { Navigation, Pagination, Mousewheel, Keyboard, Autoplay } from 'swiper/modules';
+  import listNewReleases from '/@/assets/json/listNewReleases.json';
+  import listMovies from '/@/assets/json/listMovies.json';
+  import 'swiper/css';
+  import 'swiper/css/navigation';
+  import 'swiper/css/pagination';
+  import { PlayCircleOutlined } from '@ant-design/icons-vue';
 
   // const { prefixVar } = useDesign('')
   const autoPlayOptions = {
     delay: 5000,
-  }
+  };
 
-  const modules = [Navigation, Pagination, Mousewheel, Keyboard, Autoplay]
+  const modules = [Navigation, Pagination, Mousewheel, Keyboard, Autoplay];
 
-  const imageUrl = import.meta.env.VITE_IMAGE_URL
-  console.log(typeof imageUrl)
+  const imageUrl = import.meta.env.VITE_IMAGE_URL;
+  console.log(typeof imageUrl);
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-content';
