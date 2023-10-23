@@ -31,7 +31,7 @@
 <script lang="ts">
   // components
   import { Dropdown, Menu } from 'ant-design-vue';
-
+  import { router } from '/@/router';
   import { defineComponent, computed } from 'vue';
 
   import { useUserStore } from '/@/store/modules/user';
@@ -80,7 +80,9 @@
         userStore.confirmLoginOut();
       }
 
-      function goProfile() {}
+      function goProfile() {
+        router.push('/profile/index');
+      }
 
       function handleMenuClick(e: { key: MenuEvent }) {
         switch (e.key) {
