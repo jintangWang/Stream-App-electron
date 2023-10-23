@@ -38,9 +38,26 @@
         />
       </FormItem>
 
-      <FormItem class="enter-x" name="policy">
-        <!-- No logic, you need to deal with it yourself -->
+      <FormItem name="tags" class="enter-x">
+        <Select
+          v-model:value="formData.tags"
+          size="large"
+          mode="tags"
+          style="width: 100%"
+          placeholder="请选择自己的标签，按回车输入自定义标签"
+          :options="tagOptions"
+        />
+      </FormItem>
+
+      <!-- <FormItem class="enter-x" name="policy">
         <Checkbox v-model:checked="formData.policy" size="small"> 我同意 Stream 隐私协议 </Checkbox>
+      </FormItem> -->
+
+      <FormItem class="enter-x" name="policy">
+        <div class="flex items-center">
+          <Switch v-model:checked="formData.isVip" size="small" />
+          <div class="ml-8px">是否选择成为VIP用户</div>
+        </div>
       </FormItem>
 
       <Button
@@ -60,7 +77,7 @@
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import { Form, Input, Button, Checkbox } from 'ant-design-vue';
+  import { Form, Input, Button, Select, Switch } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
@@ -76,10 +93,16 @@
     account: '',
     password: '',
     confirmPassword: '',
-    mobile: '',
-    sms: '',
-    policy: false,
+    tags: [],
+    isVip: false,
   });
+
+  const tagOptions = reactive([
+    { value: '发烧用户' },
+    { value: '喜欢悬疑' },
+    { value: '乐于分享' },
+    { value: 'div' },
+  ]);
 
   const { getFormRules } = useFormRules(formData);
   const { validForm } = useFormValid(formRef);

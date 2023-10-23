@@ -1,4 +1,3 @@
-import type { ValidationRule } from 'ant-design-vue/lib/form/Form';
 import type { RuleObject } from 'ant-design-vue/lib/form/interface';
 import { ref, computed, unref, Ref } from 'vue';
 import { useI18n } from '/@/hooks/web/useI18n';
@@ -43,12 +42,6 @@ export function useFormRules(formData?: Recordable) {
 
   const getAccountFormRule = computed(() => createRule('请输入账号'));
   const getPasswordFormRule = computed(() => createRule('请输入密码'));
-  const getSmsFormRule = computed(() => createRule('请输入验证码'));
-  const getMobileFormRule = computed(() => createRule('请输入手机号码'));
-
-  const validatePolicy = async (_: RuleObject, value: boolean) => {
-    return !value ? Promise.reject(t('sys.login.policyPlaceholder')) : Promise.resolve();
-  };
 
   const validateConfirmPassword = (password: string) => {
     return async (_: RuleObject, value: string) => {
@@ -62,16 +55,10 @@ export function useFormRules(formData?: Recordable) {
     };
   };
 
-  const getFormRules = computed((): { [k: string]: ValidationRule | ValidationRule[] } => {
+  const getFormRules = computed((): { [k: string]: any } => {
     const accountFormRule = unref(getAccountFormRule);
     const passwordFormRule = unref(getPasswordFormRule);
-    const smsFormRule = unref(getSmsFormRule);
-    const mobileFormRule = unref(getMobileFormRule);
 
-    const mobileRule = {
-      sms: smsFormRule,
-      mobile: mobileFormRule,
-    };
     switch (unref(currentState)) {
       // register form rules
       case LoginStateEnum.REGISTER:
@@ -81,20 +68,16 @@ export function useFormRules(formData?: Recordable) {
           confirmPassword: [
             { validator: validateConfirmPassword(formData?.password), trigger: 'change' },
           ],
-          policy: [{ validator: validatePolicy, trigger: 'change' }],
-          ...mobileRule,
         };
 
       // reset password form rules
       case LoginStateEnum.RESET_PASSWORD:
         return {
           account: accountFormRule,
-          ...mobileRule,
         };
 
       // mobile form rules
       case LoginStateEnum.MOBILE:
-        return mobileRule;
 
       // login form rules
       default:

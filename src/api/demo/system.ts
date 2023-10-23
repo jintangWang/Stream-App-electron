@@ -27,7 +27,7 @@ export const getAccountList = (params: AccountParams) =>
   });
 
 export const getRoleList = () =>
-  defHttp.get<DeptListGetResultModel>({ url: 'organizations/tree', params: { parentId: 1 } });
+  defHttp.get<DeptListGetResultModel>({ url: '/organizations/tree', params: { parentId: 1 } });
 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
