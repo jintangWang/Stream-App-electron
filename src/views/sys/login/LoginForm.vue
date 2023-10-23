@@ -105,8 +105,8 @@
       });
       if (userInfo) {
         notification.success({
-          message: t('sys.login.loginSuccessTitle'),
-          description: `${t('sys.login.loginSuccessDesc')}: ${userInfo.realName}`,
+          message: '登陆成功',
+          description: `欢迎回来: ${userInfo.username}`,
           duration: 3,
         });
       }
