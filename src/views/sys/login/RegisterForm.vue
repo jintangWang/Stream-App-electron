@@ -53,12 +53,12 @@
         <Checkbox v-model:checked="formData.policy" size="small"> 我同意 Stream 隐私协议 </Checkbox>
       </FormItem> -->
 
-      <FormItem class="enter-x" name="policy">
+      <!-- <FormItem class="enter-x" name="policy">
         <div class="flex items-center">
           <Switch v-model:checked="formData.isVip" size="small" />
           <div class="ml-8px">是否选择成为VIP用户</div>
         </div>
-      </FormItem>
+      </FormItem> -->
 
       <Button
         type="primary"
@@ -77,7 +77,7 @@
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import { Form, Input, Button, Select, Switch } from 'ant-design-vue';
+  import { Form, Input, Button, Select } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
