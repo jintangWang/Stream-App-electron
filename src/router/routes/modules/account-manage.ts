@@ -3,10 +3,10 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
 const system: AppRouteModule = {
-  path: '/account',
+  path: '/account-manage',
   name: 'System',
   component: LAYOUT,
-  redirect: '/account/index',
+  redirect: '/account-manage/index',
   meta: {
     orderNo: 2000,
     icon: 'ion:settings-outline',
@@ -21,7 +21,7 @@ const system: AppRouteModule = {
         title: '账号管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/account/index.vue'),
+      component: () => import('/@/views/account-manage/index.vue'),
     },
     {
       path: 'detail/:id',
@@ -31,9 +31,9 @@ const system: AppRouteModule = {
         title: '账号详情',
         ignoreKeepAlive: true,
         showMenu: false,
-        currentActiveMenu: '/system/account',
+        currentActiveMenu: '/account-manage',
       },
-      component: () => import('/@/views/account/AccountDetail.vue'),
+      component: () => import('/@/views/account-manage/AccountDetail.vue'),
     },
   ],
 };
