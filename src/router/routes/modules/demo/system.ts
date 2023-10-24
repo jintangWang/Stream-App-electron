@@ -1,7 +1,6 @@
 import type { AppRouteModule } from '/@/router/types';
 
 import { LAYOUT } from '/@/router/constant';
-import { t } from '/@/hooks/web/useI18n';
 
 const system: AppRouteModule = {
   path: '/system',
@@ -11,14 +10,14 @@ const system: AppRouteModule = {
   meta: {
     orderNo: 2000,
     icon: 'ion:settings-outline',
-    title: t('routes.demo.system.moduleName'),
+    title: '系统管理',
   },
   children: [
     {
       path: 'account',
       name: 'AccountManagement',
       meta: {
-        title: t('routes.demo.system.account'),
+        title: '账号管理',
         ignoreKeepAlive: false,
       },
       component: () => import('/@/views/demo/system/account/index.vue'),
@@ -28,7 +27,7 @@ const system: AppRouteModule = {
       name: 'AccountDetail',
       meta: {
         hideMenu: true,
-        title: t('routes.demo.system.account_detail'),
+        title: '账号详情',
         ignoreKeepAlive: true,
         showMenu: false,
         currentActiveMenu: '/system/account',
@@ -39,7 +38,7 @@ const system: AppRouteModule = {
       path: 'role',
       name: 'RoleManagement',
       meta: {
-        title: t('routes.demo.system.role'),
+        title: '角色管理',
         ignoreKeepAlive: true,
       },
       component: () => import('/@/views/demo/system/role/index.vue'),
@@ -49,7 +48,7 @@ const system: AppRouteModule = {
       path: 'menu',
       name: 'MenuManagement',
       meta: {
-        title: t('routes.demo.system.menu'),
+        title: '菜单管理',
         ignoreKeepAlive: true,
       },
       component: () => import('/@/views/demo/system/menu/index.vue'),

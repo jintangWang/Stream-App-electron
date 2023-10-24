@@ -4,8 +4,7 @@
 import type { LocaleType } from '/#/config';
 
 import { i18n } from './setupI18n';
-import { useLocaleStoreWithOut } from '/@/store/modules/locale';
-import { unref, computed } from 'vue';
+import { unref } from 'vue';
 import { loadLocalePool, setHtmlPageLang } from './helper';
 
 interface LangModule {
@@ -15,26 +14,15 @@ interface LangModule {
 }
 
 function setI18nLanguage(locale: LocaleType) {
-  const localeStore = useLocaleStoreWithOut();
-
   if (i18n.mode === 'legacy') {
     i18n.global.locale = locale;
   } else {
     (i18n.global.locale as any).value = locale;
   }
-  localeStore.setLocaleInfo({ locale });
   setHtmlPageLang(locale);
 }
 
 export function useLocale() {
-  const localeStore = useLocaleStoreWithOut();
-  const getLocale = computed(() => localeStore.getLocale);
-  const getShowLocalePicker = computed(() => localeStore.getShowPicker);
-
-  const getAntdLocale = computed((): any => {
-    return i18n.global.getLocaleMessage(unref(getLocale))?.antdLocale ?? {};
-  });
-
   // Switching the language will change the locale of useI18n
   // And submit to configuration modification
   async function changeLocale(locale: LocaleType) {
@@ -61,9 +49,6 @@ export function useLocale() {
   }
 
   return {
-    getLocale,
-    getShowLocalePicker,
     changeLocale,
-    getAntdLocale,
   };
 }

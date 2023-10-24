@@ -31,7 +31,7 @@
           @click="toggleAdvanced"
           v-if="showAdvancedButton && !hideAdvanceBtn"
         >
-          {{ isAdvanced ? t('component.form.putAway') : t('component.form.unfold') }}
+          {{ isAdvanced ? '收起' : '展开' }}
           <BasicArrow class="ml-1" :expand="!isAdvanced" up />
         </Button>
         <slot name="advanceAfter"></slot>
@@ -103,7 +103,7 @@
       const getResetBtnOptions = computed((): ButtonOptions => {
         return Object.assign(
           {
-            text: t('common.resetText'),
+            text: '重置',
           },
           props.resetButtonOptions,
         );
@@ -112,7 +112,7 @@
       const getSubmitBtnOptions = computed(() => {
         return Object.assign(
           {
-            text: t('common.queryText'),
+            text: '查询',
           },
           props.submitButtonOptions,
         );

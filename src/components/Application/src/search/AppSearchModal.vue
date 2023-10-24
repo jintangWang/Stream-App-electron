@@ -6,7 +6,7 @@
           <div :class="`${prefixCls}-input__wrapper`">
             <a-input
               :class="`${prefixCls}-input`"
-              :placeholder="t('common.searchText')"
+              placeholder="搜索"
               ref="inputRef"
               allow-clear
               @change="handleSearch"
@@ -15,9 +15,7 @@
                 <SearchOutlined />
               </template>
             </a-input>
-            <span :class="`${prefixCls}-cancel`" @click="handleClose">
-              {{ t('common.cancelText') }}
-            </span>
+            <span :class="`${prefixCls}-cancel`" @click="handleClose">取消</span>
           </div>
 
           <div :class="`${prefixCls}-not-data`" v-show="getIsNotData">
