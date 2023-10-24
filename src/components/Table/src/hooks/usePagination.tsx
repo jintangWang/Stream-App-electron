@@ -4,7 +4,6 @@ import { computed, unref, ref, ComputedRef, watch } from 'vue';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons-vue';
 import { isBoolean } from '/@/utils/is';
 import { PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../const';
-import { useI18n } from '/@/hooks/web/useI18n';
 
 interface ItemRender {
   page: number;
@@ -22,8 +21,6 @@ function itemRender({ page, type, originalElement }: ItemRender) {
 }
 
 export function usePagination(refProps: ComputedRef<BasicTableProps>) {
-  const { t } = useI18n();
-
   const configRef = ref<PaginationProps>({});
   const show = ref(true);
 
@@ -51,7 +48,7 @@ export function usePagination(refProps: ComputedRef<BasicTableProps>) {
       pageSize: PAGE_SIZE,
       size: 'small',
       defaultPageSize: PAGE_SIZE,
-      showTotal: (total) => t('component.table.total', { total }),
+      showTotal: (total) => `共 ${total} 条数据`,
       showSizeChanger: true,
       pageSizeOptions: PAGE_SIZE_OPTIONS,
       itemRender: itemRender,

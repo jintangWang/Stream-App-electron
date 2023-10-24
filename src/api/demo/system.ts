@@ -22,12 +22,14 @@ enum Api {
 
 export const getAccountList = (params: AccountParams) =>
   defHttp.get<AccountListGetResultModel>({
-    url: `/organizations/${params.roleId || 1}/users`,
-    params,
+    url: `/roles/${params.roleId || 1}/users`,
+    params: {
+      page: params.page,
+      size: params.size,
+    },
   });
 
-export const getRoleList = () =>
-  defHttp.get<DeptListGetResultModel>({ url: '/organizations/tree', params: { parentId: 1 } });
+export const getRoleList = () => defHttp.get<DeptListGetResultModel>({ url: '/roles' });
 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
