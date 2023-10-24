@@ -3,27 +3,28 @@ import type { AppRouteModule } from '/@/router/types';
 import { LAYOUT } from '/@/router/constant';
 
 const system: AppRouteModule = {
-  path: '/system',
+  path: '/account',
   name: 'System',
   component: LAYOUT,
-  redirect: '/system/account',
+  redirect: '/account/index',
   meta: {
     orderNo: 2000,
     icon: 'ion:settings-outline',
-    title: '系统管理',
+    title: '账号管理',
+    hideChildrenInMenu: true,
   },
   children: [
     {
-      path: 'account',
+      path: 'index',
       name: 'AccountManagement',
       meta: {
         title: '账号管理',
         ignoreKeepAlive: false,
       },
-      component: () => import('/@/views/demo/system/account/index.vue'),
+      component: () => import('/@/views/account/index.vue'),
     },
     {
-      path: 'account_detail/:id',
+      path: 'detail/:id',
       name: 'AccountDetail',
       meta: {
         hideMenu: true,
@@ -32,16 +33,7 @@ const system: AppRouteModule = {
         showMenu: false,
         currentActiveMenu: '/system/account',
       },
-      component: () => import('/@/views/demo/system/account/AccountDetail.vue'),
-    },
-    {
-      path: 'role',
-      name: 'RoleManagement',
-      meta: {
-        title: '角色管理',
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/demo/system/role/index.vue'),
+      component: () => import('/@/views/account/AccountDetail.vue'),
     },
   ],
 };
