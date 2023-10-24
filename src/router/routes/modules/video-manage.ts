@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types';
-
+import { RoleEnum } from '/@/enums/roleEnum';
 import { LAYOUT } from '/@/router/constant';
 
 const manage: AppRouteModule = {
@@ -12,6 +12,7 @@ const manage: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'carbon:gui-management',
     title: '流媒体管理',
+    roles: [RoleEnum.ADMIN],
   },
   children: [
     {
@@ -22,6 +23,7 @@ const manage: AppRouteModule = {
         title: '流媒体管理',
         icon: 'carbon:gui-management',
         hideMenu: true,
+        roles: [RoleEnum.ADMIN],
       },
     },
   ],

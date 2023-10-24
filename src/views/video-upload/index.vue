@@ -167,7 +167,4 @@
       background-color: @dark-bg;
     }
   }
-
-  .@{prefix-cls} {
-  }
 </style>

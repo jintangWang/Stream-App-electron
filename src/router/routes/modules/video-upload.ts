@@ -1,11 +1,10 @@
 import type { AppRouteModule } from '/@/router/types';
 import { RoleEnum } from '/@/enums/roleEnum';
-
 import { LAYOUT } from '/@/router/constant';
 
 const videoUpload: AppRouteModule = {
   path: '/video-upload',
-  name: 'video-upload',
+  name: 'VideoUpload',
   component: LAYOUT,
   redirect: '/video-upload/index',
   meta: {
@@ -24,6 +23,7 @@ const videoUpload: AppRouteModule = {
         title: '流媒体上传',
         icon: 'whh:paintroll',
         hideMenu: true,
+        roles: [RoleEnum.ADMIN],
       },
     },
   ],
