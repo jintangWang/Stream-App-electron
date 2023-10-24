@@ -43,16 +43,6 @@ const system: AppRouteModule = {
       },
       component: () => import('/@/views/demo/system/role/index.vue'),
     },
-
-    {
-      path: 'menu',
-      name: 'MenuManagement',
-      meta: {
-        title: '菜单管理',
-        ignoreKeepAlive: true,
-      },
-      component: () => import('/@/views/demo/system/menu/index.vue'),
-    },
   ],
 };
 
