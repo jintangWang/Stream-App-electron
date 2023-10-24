@@ -10,15 +10,13 @@
       <template #action="{ record }">
         <TableAction
           :actions="[
-            {
-              icon: 'clarity:info-standard-line',
-              tooltip: '查看用户详情',
-              onClick: handleView.bind(null, record),
-            },
-            record.username !== 'admin' && {
-              icon: 'clarity:note-edit-line',
-              tooltip: '编辑用户资料',
-              onClick: handleEdit.bind(null, record),
+            searchInfo.roleId === 3 && {
+              icon: 'material-symbols:volunteer-activism-outline-sharp',
+              tooltip: '设置为VIP用户',
+              popConfirm: {
+                title: '是否确认开通其VIP权限',
+                confirm: handleEdit.bind(null, record),
+              },
             },
             record.username !== 'admin' && {
               icon: 'ant-design:delete-outlined',
@@ -33,7 +31,6 @@
         />
       </template>
     </BasicTable>
-    <AccountModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -44,8 +41,6 @@
   import { PageWrapper } from '/@/components/Page';
   import RoleTree from './RoleTree.vue';
   import { message } from 'ant-design-vue';
-  import { useModal } from '/@/components/Modal';
-  import AccountModal from './AccountModal.vue';
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '/@/hooks/web/usePage';
@@ -53,11 +48,10 @@
 
   export default defineComponent({
     name: 'AccountManagement',
-    components: { BasicTable, PageWrapper, RoleTree, AccountModal, TableAction },
+    components: { BasicTable, PageWrapper, RoleTree, TableAction },
     setup() {
       const { VITE_GLOB_API_URL } = getAppEnvConfig();
       const go = useGo();
-      const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
         title: '账号列表',
@@ -66,6 +60,8 @@
         columns,
         formConfig: {
           labelWidth: 120,
+          labelAlign: 'left',
+          baseRowStyle: { paddingLeft: '8px' },
           schemas: searchFormSchema,
           autoSubmitOnEnter: true,
         },
@@ -86,10 +82,7 @@
 
       function handleEdit(record: Recordable) {
         console.log(record);
-        openModal(true, {
-          record,
-          isUpdate: true,
-        });
+        // TODO 调用设置为vip接口
       }
 
       async function handleDelete(record: Recordable) {
@@ -119,18 +112,12 @@
         reload();
       }
 
-      function handleView(record: Recordable) {
-        go('/account-manage/detail/' + record.id);
-      }
-
       return {
         registerTable,
-        registerModal,
         handleEdit,
         handleDelete,
         handleSuccess,
         handleSelect,
-        handleView,
         searchInfo,
         baseUrl: VITE_GLOB_API_URL,
       };

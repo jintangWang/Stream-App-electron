@@ -1,9 +1,6 @@
 import type { PropType, CSSProperties } from 'vue';
 import type { ModalWrapperProps } from './typing';
 import { ButtonProps } from 'ant-design-vue/es/button/buttonTypes';
-import { useI18n } from '/@/hooks/web/useI18n';
-
-const { t } = useI18n();
 
 export const modalProps = {
   visible: { type: Boolean },
@@ -14,7 +11,7 @@ export const modalProps = {
   draggable: { type: Boolean, default: true },
   centered: { type: Boolean },
   cancelText: { type: String, default: '取消' },
-  okText: { type: String, default: t('common.okText') },
+  okText: { type: String, default: '确认' },
 
   closeFunc: Function as PropType<() => Promise<boolean>>,
 };

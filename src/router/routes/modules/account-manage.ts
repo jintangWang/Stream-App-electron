@@ -23,18 +23,6 @@ const system: AppRouteModule = {
       },
       component: () => import('/@/views/account-manage/index.vue'),
     },
-    {
-      path: 'detail/:id',
-      name: 'AccountDetail',
-      meta: {
-        hideMenu: true,
-        title: '账号详情',
-        ignoreKeepAlive: true,
-        showMenu: false,
-        currentActiveMenu: '/account-manage',
-      },
-      component: () => import('/@/views/account-manage/AccountDetail.vue'),
-    },
   ],
 };
 

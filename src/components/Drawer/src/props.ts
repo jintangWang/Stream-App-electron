@@ -1,8 +1,5 @@
 import type { PropType } from 'vue';
 
-import { useI18n } from '/@/hooks/web/useI18n';
-const { t } = useI18n();
-
 export const footerProps = {
   confirmLoading: { type: Boolean },
   /**
@@ -16,7 +13,7 @@ export const footerProps = {
    */
   showOkBtn: { type: Boolean, default: true },
   okButtonProps: Object as PropType<Recordable>,
-  okText: { type: String, default: t('common.okText') },
+  okText: { type: String, default: '确认' },
   okType: { type: String, default: 'primary' },
   showFooter: { type: Boolean },
   footerHeight: {
