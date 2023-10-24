@@ -15,12 +15,12 @@
               tooltip: '查看用户详情',
               onClick: handleView.bind(null, record),
             },
-            {
+            record.username !== 'admin' && {
               icon: 'clarity:note-edit-line',
               tooltip: '编辑用户资料',
               onClick: handleEdit.bind(null, record),
             },
-            {
+            record.username !== 'admin' && {
               icon: 'ant-design:delete-outlined',
               color: 'error',
               tooltip: '删除此账号',
@@ -40,10 +40,10 @@
   import { defineComponent, reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
-  import { getAccountList } from '/@/api/demo/system';
+  import { getAccountList, delAccount } from '/@/api/demo/system';
   import { PageWrapper } from '/@/components/Page';
   import RoleTree from './RoleTree.vue';
-
+  import { message } from 'ant-design-vue';
   import { useModal } from '/@/components/Modal';
   import AccountModal from './AccountModal.vue';
 
@@ -92,8 +92,15 @@
         });
       }
 
-      function handleDelete(record: Recordable) {
+      async function handleDelete(record: Recordable) {
         console.log(record);
+        try {
+          await delAccount(record.id);
+          message.success(`删除用户成功！`);
+          reload();
+        } catch (error) {
+          message.error(`删除用户失败！`);
+        }
       }
 
       function handleSuccess({ isUpdate, values }) {

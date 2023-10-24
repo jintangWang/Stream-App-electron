@@ -20,6 +20,8 @@ enum Api {
   GetAllRoleList = '/system/getAllRoleList',
 }
 
+export const getRoleList = () => defHttp.get<DeptListGetResultModel>({ url: '/roles' });
+
 export const getAccountList = (params: AccountParams) =>
   defHttp.get<AccountListGetResultModel>({
     url: `/roles/${params.roleId || 1}/users`,
@@ -29,7 +31,7 @@ export const getAccountList = (params: AccountParams) =>
     },
   });
 
-export const getRoleList = () => defHttp.get<DeptListGetResultModel>({ url: '/roles' });
+export const delAccount = (userId: string) => defHttp.delete<any>({ url: `/users/${userId}` });
 
 export const getMenuList = (params?: MenuParams) =>
   defHttp.get<MenuListGetResultModel>({ url: Api.MenuList, params });
