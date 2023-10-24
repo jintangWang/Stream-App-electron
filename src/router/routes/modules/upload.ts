@@ -1,23 +1,25 @@
 import type { AppRouteModule } from '/@/router/types';
+import { RoleEnum } from '/@/enums/roleEnum';
 
 import { LAYOUT } from '/@/router/constant';
 
-const manage: AppRouteModule = {
-  path: '/manage',
-  name: 'Manage',
+const videoUpload: AppRouteModule = {
+  path: '/video-upload',
+  name: 'video-upload',
   component: LAYOUT,
-  redirect: '/manage/index',
+  redirect: '/video-upload/index',
   meta: {
     orderNo: 800,
     hideChildrenInMenu: true,
     icon: 'mdi:upload',
     title: '流媒体上传',
+    roles: [RoleEnum.ADMIN],
   },
   children: [
     {
       path: 'index',
       name: 'UploadPage',
-      component: () => import('/@/views/manage/index.vue'),
+      component: () => import('/@/views/video-upload/index.vue'),
       meta: {
         title: '流媒体上传',
         icon: 'whh:paintroll',
@@ -27,4 +29,4 @@ const manage: AppRouteModule = {
   ],
 };
 
-export default manage;
+export default videoUpload;

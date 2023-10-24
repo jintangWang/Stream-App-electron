@@ -11,9 +11,10 @@ import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { usePermissionStore } from '/@/store/modules/permission';
+import { usePermission } from '/@/hooks/web/usePermission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '/@/router/routes/basic';
-import { isArray } from '/@/utils/is';
+// import { isArray } from '/@/utils/is';
 import { h } from 'vue';
 
 interface UserState {
@@ -99,7 +100,7 @@ export const useUserStore = defineStore({
         return Promise.reject(error);
       }
     },
-    async afterLoginAction(goHome: boolean, userInfo: any): Promise<GetUserInfoModel | null> {
+    async afterLoginAction(goHome?: boolean, userInfo?: any): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
 
       const sessionTimeout = this.sessionTimeout;
@@ -121,15 +122,34 @@ export const useUserStore = defineStore({
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
+      const { changeRole } = usePermission();
       const userInfo = await getUserInfo();
-      const { roles = [] } = userInfo;
-      if (isArray(roles)) {
-        const roleList = roles.map((item) => item.value) as RoleEnum[];
-        this.setRoleList(roleList);
-      } else {
-        userInfo.roles = [];
-        this.setRoleList([]);
+      const { roleList: roles = [] } = userInfo;
+      if (roles.length > 0) {
+        switch (roles[0].id) {
+          case 1:
+            changeRole(RoleEnum.ADMIN);
+            break;
+          case 2:
+            changeRole(RoleEnum.VIP);
+            break;
+          case 3:
+            changeRole(RoleEnum.USER);
+            break;
+          case 4:
+            changeRole(RoleEnum.GUEST);
+            break;
+          default:
+            changeRole(RoleEnum.USER);
+            break;
+        }
       }
+      // if (isArray(roles)) {
+      //   const roleList = roles.map((item) => item.name) as RoleEnum[];
+      // } else {
+      //   userInfo.roles = [];
+      //   this.setRoleList([]);
+      // }
       this.setUserInfo(userInfo);
       return userInfo;
     },
