@@ -37,8 +37,6 @@
 
       <ErrorAction v-if="getUseErrorHandle" :class="`${prefixCls}-action__item error-action`" />
 
-      <Notify v-if="getShowNotice" :class="`${prefixCls}-action__item notify-item`" />
-
       <FullScreen v-if="getShowFullScreen" :class="`${prefixCls}-action__item fullscreen-item`" />
 
       <UserDropDown :theme="getHeaderTheme" />
@@ -66,12 +64,11 @@
   import { MenuModeEnum, MenuSplitTyeEnum } from '/@/enums/menuEnum';
   import { SettingButtonPositionEnum } from '/@/enums/appEnum';
 
-  import { UserDropDown, LayoutBreadcrumb, FullScreen, Notify, ErrorAction } from './components';
+  import { UserDropDown, LayoutBreadcrumb, FullScreen, ErrorAction } from './components';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
-  import { useLocale } from '/@/locales/useLocale';
 
   export default defineComponent({
     name: 'LayoutHeader',
@@ -83,7 +80,6 @@
       LayoutMenu,
       UserDropDown,
       FullScreen,
-      Notify,
       AppSearch,
       ErrorAction,
       SettingDrawer: createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
@@ -109,15 +105,12 @@
       const {
         getHeaderTheme,
         getShowFullScreen,
-        getShowNotice,
         getShowContent,
         getShowBread,
         getShowHeaderLogo,
         getShowHeader,
         getShowSearch,
       } = useHeaderSetting();
-
-      const { getShowLocalePicker } = useLocale();
 
       const { getIsMobile } = useAppInject();
 
@@ -174,9 +167,7 @@
         getSplit,
         getMenuMode,
         getShowTopMenu,
-        getShowLocalePicker,
         getShowFullScreen,
-        getShowNotice,
         getUseErrorHandle,
         getLogoWidth,
         getIsMixSidebar,
