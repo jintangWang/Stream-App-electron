@@ -116,14 +116,26 @@ export const useUserStore = defineStore({
           router.addRoute(PAGE_NOT_FOUND_ROUTE as unknown as RouteRecordRaw);
           permissionStore.setDynamicAddedRoute(true);
         }
+        this.setUserRole(userInfo);
         goHome && (await router.replace((userInfo as UserInfo)?.homePath || PageEnum.BASE_HOME));
       }
       return userInfo;
     },
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
-      const { changeRole } = usePermission();
       const userInfo = await getUserInfo();
+      this.setUserRole(userInfo);
+      // if (isArray(roles)) {
+      //   const roleList = roles.map((item) => item.name) as RoleEnum[];
+      // } else {
+      //   userInfo.roles = [];
+      //   this.setRoleList([]);
+      // }
+      this.setUserInfo(userInfo);
+      return userInfo;
+    },
+    setUserRole(userInfo) {
+      const { changeRole } = usePermission();
       const { roleList: roles = [] } = userInfo;
       if (roles.length > 0) {
         switch (roles[0].id) {
@@ -144,14 +156,6 @@ export const useUserStore = defineStore({
             break;
         }
       }
-      // if (isArray(roles)) {
-      //   const roleList = roles.map((item) => item.name) as RoleEnum[];
-      // } else {
-      //   userInfo.roles = [];
-      //   this.setRoleList([]);
-      // }
-      this.setUserInfo(userInfo);
-      return userInfo;
     },
     /**
      * @description: logout
