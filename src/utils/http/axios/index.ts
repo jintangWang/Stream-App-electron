@@ -236,8 +236,8 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 是否携带token
           withToken: true,
           retryRequest: {
-            isOpenRetry: true,
-            count: 5,
+            isOpenRetry: false,
+            count: 1,
             waitTime: 100,
           },
         },

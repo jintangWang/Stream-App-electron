@@ -26,6 +26,15 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
 }
 
 /**
+ * @description: 重名检测
+ */
+export function nameDupliDetect(name: string) {
+  return defHttp.get<any>({
+    url: `/users/${name}`,
+  });
+}
+
+/**
  * @description: 注册
  */
 export function registerApi(params: LoginParams) {

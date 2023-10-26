@@ -38,9 +38,9 @@
         />
       </FormItem>
 
-      <FormItem name="tags" class="enter-x">
+      <FormItem name="label" class="enter-x">
         <Select
-          v-model:value="formData.tags"
+          v-model:value="formData.label"
           size="large"
           mode="multiple"
           style="width: 100%"
@@ -75,7 +75,7 @@
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
-  import { registerApi, getUserTags } from '/@/api/sys/user';
+  import { registerApi, getUserTags, nameDupliDetect } from '/@/api/sys/user';
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { handleBackLogin, getLoginState } = useLoginState();
@@ -87,7 +87,7 @@
     account: '张三',
     password: '123456',
     confirmPassword: '123456',
-    tags: [],
+    label: [],
   });
 
   const tagOptions: any[] = reactive([]);
@@ -112,14 +112,23 @@
     if (!data) return;
     console.log('handleRegister', data);
     try {
+      await nameDupliDetect(data.account);
+    } catch (error) {
+      message.error(`该用户名已被注册！`);
+      return;
+    }
+    try {
       const param = {
         username: data.account,
         password: data.password,
+        label: tagOptions
+          .filter((tag) => data.label.includes(tag.id))
+          .map((tag) => ({ name: tag.name, description: tag.description })),
       };
-      const res = await registerApi(param);
-      console.log('res', res);
+      await registerApi(param);
+      message.success(`注册成功！`);
     } catch (error) {
-      return Promise.reject(error);
+      message.error(`注册失败！`);
     }
   }
 </script>
