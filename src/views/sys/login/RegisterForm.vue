@@ -2,11 +2,11 @@
   <template v-if="getShow">
     <LoginFormTitle class="enter-x" />
     <Form class="p-4 enter-x" :model="formData" :rules="getFormRules" ref="formRef">
-      <FormItem name="username" class="enter-x">
+      <FormItem name="account" class="enter-x">
         <Input
           class="fix-auto-fill"
           size="large"
-          v-model:value="formData.username"
+          v-model:value="formData.account"
           placeholder="账号"
         />
       </FormItem>
@@ -84,7 +84,7 @@
   const loading = ref(false);
 
   const formData = reactive({
-    username: '张三',
+    account: '张三',
     password: '123456',
     confirmPassword: '123456',
     tags: [],
@@ -113,7 +113,7 @@
     console.log('handleRegister', data);
     try {
       const param = {
-        username: data.username,
+        username: data.account,
         password: data.password,
       };
       const res = await registerApi(param);

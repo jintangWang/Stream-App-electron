@@ -9,10 +9,10 @@
     @keypress.enter="handleLogin"
     autocomplete="off"
   >
-    <FormItem name="username" class="enter-x">
+    <FormItem name="account" class="enter-x">
       <Input
         size="large"
-        v-model:value="formData.username"
+        v-model:value="formData.account"
         placeholder="账号"
         class="fix-auto-fill"
       />
@@ -68,9 +68,10 @@
   const formRef = ref();
   const loading = ref(false);
 
+  // 如果 account 改为 username 会自动填充 admin，鬼知道这什么奇葩 bug
   const formData = reactive({
-    username: '',
-    password: '',
+    account: 'admin',
+    password: '123456',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -86,7 +87,7 @@
       loading.value = true;
       const userInfo = await userStore.login({
         password: data.password,
-        username: data.username,
+        username: data.account,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {
