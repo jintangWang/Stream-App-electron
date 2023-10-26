@@ -1,8 +1,8 @@
 <template>
   <BasicModal
     width="800px"
-    :title="t('component.upload.upload')"
-    :okText="t('component.upload.save')"
+    title="上传"
+    okText="保存"
     v-bind="$attrs"
     @register="register"
     @ok="handleOk"
@@ -34,9 +34,7 @@
         :show-upload-list="false"
         class="upload-modal-toolbar__btn"
       >
-        <a-button type="primary">
-          {{ t('component.upload.choose') }}
-        </a-button>
+        <a-button type="primary"> 选择文件 </a-button>
       </Upload>
     </div>
     <FileList :dataSource="fileListRef" :columns="columns" :actionColumn="actionColumn" />
@@ -114,11 +112,7 @@
         const someError = fileListRef.value.some(
           (item) => item.status === UploadResultStatus.ERROR,
         );
-        return isUploadingRef.value
-          ? t('component.upload.uploading')
-          : someError
-          ? t('component.upload.reUploadFailed')
-          : t('component.upload.startUpload');
+        return isUploadingRef.value ? '上传中...' : someError ? '重新上传失败文件' : '开始上传';
       });
 
       // 上传前校验
@@ -214,7 +208,7 @@
       async function handleStartUpload() {
         const { maxNumber } = props;
         if ((fileListRef.value.length + props.previewFileList?.length ?? 0) > maxNumber) {
-          return createMessage.warning(t('component.upload.maxNumber', [maxNumber]));
+          return createMessage.warning(`最多只能上传${maxNumber}个文件`);
         }
         try {
           isUploadingRef.value = true;
@@ -239,9 +233,8 @@
       //   点击保存
       function handleOk() {
         const { maxNumber } = props;
-
         if (fileListRef.value.length > maxNumber) {
-          return createMessage.warning(t('component.upload.maxNumber', [maxNumber]));
+          return createMessage.warning(`最多只能上传${maxNumber}个文件`);
         }
         if (isUploadingRef.value) {
           return createMessage.warning(t('component.upload.saveWarn'));
@@ -251,7 +244,8 @@
         for (const item of fileListRef.value) {
           const { status, responseData } = item;
           if (status === UploadResultStatus.SUCCESS && responseData) {
-            fileList.push(responseData.url);
+            // 根据接口返回的格式修改
+            fileList.push(responseData?.[0]?.url);
           }
         }
         // 存在一个上传成功的即可保存

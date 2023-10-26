@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     width="800px"
-    :title="t('component.upload.preview')"
+    title="预览"
     class="upload-preview-modal"
     v-bind="$attrs"
     @register="register"
@@ -21,6 +21,9 @@
   import { createPreviewColumns, createPreviewActionColumn } from './data';
   import { useI18n } from '/@/hooks/web/useI18n';
   import { isArray } from '/@/utils/is';
+  import { getAppEnvConfig } from '/@/utils/env';
+
+  const { VITE_GLOB_API_URL } = getAppEnvConfig();
 
   export default defineComponent({
     components: { BasicModal, FileList },
@@ -39,7 +42,7 @@
             .filter((item) => !!item)
             .map((item) => {
               return {
-                url: item,
+                url: VITE_GLOB_API_URL + item,
                 type: item.split('.').pop() || '',
                 name: item.split('/').pop() || '',
               };

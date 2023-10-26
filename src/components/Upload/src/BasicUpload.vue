@@ -2,11 +2,11 @@
   <div>
     <Space>
       <a-button type="primary" @click="openUploadModal" preIcon="carbon:cloud-upload">
-        {{ t('component.upload.upload') }}
+        上传
       </a-button>
       <Tooltip placement="bottom" v-if="showPreview">
         <template #title>
-          {{ t('component.upload.uploaded') }}
+          已上传
           <template v-if="fileList.length">
             {{ fileList.length }}
           </template>
@@ -84,6 +84,7 @@
 
       // 上传modal保存操作
       function handleChange(urls: string[]) {
+        console.log('handleChange', fileList.value);
         fileList.value = [...unref(fileList), ...(urls || [])];
         emit('update:value', fileList.value);
         emit('change', fileList.value);

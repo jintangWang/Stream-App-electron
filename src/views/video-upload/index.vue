@@ -10,66 +10,63 @@
     >
       <a-form-item
         label="流媒体名称"
-        name="username"
+        name="title"
         :rules="[{ required: true, message: '请输入流媒体名称!' }]"
       >
-        <a-input v-model:value="formState.username" placeholder="请输入流媒体名称" />
+        <a-input v-model:value="formState.title" placeholder="请输入流媒体名称" />
       </a-form-item>
       <a-form-item
         label="流媒体介绍"
-        name="username"
+        name="overview"
         :rules="[{ required: true, message: '请输入流媒体介绍!' }]"
       >
         <a-textarea
-          v-model:value="formState.username"
+          v-model:value="formState.overview"
           placeholder="请输入流媒体介绍"
           :auto-size="{ minRows: 4, maxRows: 6 }"
         />
       </a-form-item>
-      <a-form-item name="dragger" label="流媒体">
-        <a-upload-dragger
-          v-model:fileList="fileList"
-          name="file"
-          :multiple="true"
-          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-          @change="handleChange"
-          @drop="handleDrop"
-        >
-          <p class="ant-upload-drag-icon">
-            <inbox-outlined />
-          </p>
-          <p class="ant-upload-text">点击上传流媒体文件</p>
-          <p class="ant-upload-hint"> 目前支持格式为mp4大小 50M 以下的流媒体文件 </p>
-        </a-upload-dragger>
+      <a-form-item
+        name="posterPath"
+        label="流媒体缩略图"
+        :rules="[{ required: true, message: '请上传流媒体缩略图!' }]"
+      >
+        <BasicUpload
+          helpText="上传流媒体海报，目前大小 2M 以下的图片"
+          :maxSize="2"
+          :maxNumber="1"
+          @change="handlePosterChange"
+          :api="uploadApi"
+          :accept="['image/*']"
+        />
+      </a-form-item>
+      <a-form-item
+        name="url"
+        label="流媒体"
+        :rules="[{ required: true, message: '请上传流媒体!' }]"
+      >
+        <BasicUpload
+          helpText="上传流媒体文件，目前支持格式为 mp4、 大小 50M 以下的流媒体文件"
+          :maxSize="50"
+          :maxNumber="1"
+          @change="handleMediaChange"
+          :api="uploadApi"
+          :accept="['.mp4']"
+        />
       </a-form-item>
       <a-form-item name="isVip" label="是否只有VIP可见">
         <a-switch v-model:checked="formState.switch" />
       </a-form-item>
-      <a-form-item name="isVip" label="流媒体标签">
-        <template v-for="(tag, index) in tags" :key="tag">
-          <a-tooltip v-if="tag.length > 20" :title="tag">
-            <a-tag :closable="index !== 0" @close="handleClose(tag)">
-              {{ `${tag.slice(0, 20)}...` }}
-            </a-tag>
-          </a-tooltip>
-          <a-tag v-else :closable="index !== 0" @close="handleClose(tag)">
-            {{ tag }}
-          </a-tag>
-        </template>
-        <a-input
-          v-if="inputVisible"
-          :ref="inputRef"
-          v-model:value="inputValue"
-          type="text"
-          size="small"
-          :style="{ width: '78px' }"
-          @blur="handleInputConfirm"
-          @keyup.enter="handleInputConfirm"
+      <a-form-item name="labels" label="流媒体标签">
+        <Select
+          v-model:value="formState.labels"
+          size="large"
+          mode="multiple"
+          style="width: 100%"
+          placeholder="请选择自己的标签"
+          :options="tagOptions"
+          :field-names="{ label: 'name', value: 'id' }"
         />
-        <a-tag v-else style="background: #fff; border-style: dashed" @click="showInput">
-          <plus-outlined />
-          新增 tag
-        </a-tag>
       </a-form-item>
       <a-form-item label=" " :colon="false">
         <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
@@ -81,64 +78,36 @@
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { ref, reactive, nextTick } from 'vue';
-  import { InboxOutlined, PlusOutlined } from '@ant-design/icons-vue';
-  import { message } from 'ant-design-vue';
-  import type { UploadChangeParam } from 'ant-design-vue';
-  import { Button } from 'ant-design-vue';
+  import { ref, reactive, toRaw } from 'vue';
+  import { message, Button, Select } from 'ant-design-vue';
+  import { getUserTags } from '/@/api/sys/user';
+  import { BasicUpload } from '/@/components/Upload';
+  import { uploadApi } from '/@/api/sys/upload';
 
-  const formState = reactive<Record<string, any>>({
-    'input-number': 3,
-    'checkbox-group': ['A', 'B'],
-    rate: 3.5,
-  });
-  const fileList = ref([]);
-  const inputRef = ref();
+  const formState = reactive<Record<string, any>>({});
   const formItemLayout = {
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
   };
-  const tags = ref(['tag1', 'tag2']);
-  const inputVisible = ref(false);
-  const inputValue = ref('');
+  const tagOptions: any[] = reactive([]);
   const loading = ref(false);
 
-  const handleChange = (info: UploadChangeParam) => {
-    const status = info.file.status;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
+  async function httpTags() {
+    try {
+      const res = await getUserTags();
+      tagOptions.push(...res);
+    } catch (error) {
+      message.error(`获取用户标签失败！`);
     }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  };
-
-  function handleDrop(e: DragEvent) {
-    console.log(e);
   }
+  httpTags();
 
-  const handleClose = (removedTag: string) => {
-    const tmpTags = tags.value.filter((tag) => tag !== removedTag);
-    console.log(tmpTags);
-    tags.value = tmpTags;
+  const handlePosterChange = (fileList) => {
+    console.log('handlePosterChange', toRaw(fileList));
   };
-  const handleInputConfirm = () => {
-    const tmpInputValue = inputValue.value;
-    let tmpTags = tags.value;
-    if (!!tmpInputValue && tmpTags.indexOf(tmpInputValue) === -1) {
-      tmpTags = [...tmpTags, tmpInputValue];
-    }
-    tags.value = tmpTags;
-    inputValue.value = tmpInputValue;
-    inputVisible.value = false;
-  };
-  const showInput = () => {
-    inputVisible.value = true;
-    nextTick(() => {
-      inputRef.value.focus();
-    });
+
+  const handleMediaChange = (fileList) => {
+    console.log('handleMediaChange', toRaw(fileList));
   };
 
   const onFinish = (values: any) => {
