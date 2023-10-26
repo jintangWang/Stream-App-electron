@@ -110,9 +110,13 @@
   async function handleRegister() {
     const data = await validForm();
     if (!data) return;
-    console.log('handleRegister', data);
+    // console.log('handleRegister', data);
     try {
-      await nameDupliDetect(data.account);
+      const res = await nameDupliDetect(data.account);
+      if (res?.length > 0) {
+        message.error(`该用户名已被注册！`);
+        return;
+      }
     } catch (error) {
       message.error(`该用户名已被注册！`);
       return;
@@ -121,9 +125,7 @@
       const param = {
         username: data.account,
         password: data.password,
-        label: tagOptions
-          .filter((tag) => data.label.includes(tag.id))
-          .map((tag) => ({ name: tag.name, description: tag.description })),
+        label: data.label.map((id) => ({ id: id })),
       };
       await registerApi(param);
       message.success(`注册成功！`);

@@ -30,7 +30,7 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
  */
 export function nameDupliDetect(name: string) {
   return defHttp.get<any>({
-    url: `/users/${name}`,
+    url: `/users/validate/${name}`,
   });
 }
 
