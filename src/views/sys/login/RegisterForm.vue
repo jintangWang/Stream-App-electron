@@ -42,22 +42,16 @@
         <Select
           v-model:value="formData.tags"
           size="large"
-          mode="tags"
+          mode="multiple"
           style="width: 100%"
-          placeholder="请选择自己的标签，按回车输入自定义标签"
+          placeholder="请选择自己的标签"
           :options="tagOptions"
+          :field-names="{ label: 'name', value: 'id' }"
         />
       </FormItem>
 
       <!-- <FormItem class="enter-x" name="policy">
         <Checkbox v-model:checked="formData.policy" size="small"> 我同意 Stream 隐私协议 </Checkbox>
-      </FormItem> -->
-
-      <!-- <FormItem class="enter-x" name="policy">
-        <div class="flex items-center">
-          <Switch v-model:checked="formData.isVip" size="small" />
-          <div class="ml-8px">是否选择成为VIP用户</div>
-        </div>
       </FormItem> -->
 
       <Button
@@ -77,12 +71,11 @@
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-  import { Form, Input, Button, Select } from 'ant-design-vue';
+  import { Form, Input, Button, Select, message } from 'ant-design-vue';
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
-  import { registerApi } from '/@/api/sys/user';
-
+  import { registerApi, getUserTags } from '/@/api/sys/user';
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { handleBackLogin, getLoginState } = useLoginState();
@@ -95,24 +88,29 @@
     password: '123456',
     confirmPassword: '123456',
     tags: [],
-    isVip: false,
   });
 
-  const tagOptions = reactive([
-    { value: '发烧用户' },
-    { value: '喜欢悬疑' },
-    { value: '乐于分享' },
-    { value: 'div' },
-  ]);
+  const tagOptions: any[] = reactive([]);
 
   const { getFormRules } = useFormRules(formData);
   const { validForm } = useFormValid(formRef);
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.REGISTER);
 
+  async function httpTags() {
+    try {
+      const res = await getUserTags();
+      tagOptions.push(...res);
+    } catch (error) {
+      message.error(`获取用户标签失败！`);
+    }
+  }
+  httpTags();
+
   async function handleRegister() {
     const data = await validForm();
     if (!data) return;
+    console.log('handleRegister', data);
     try {
       const param = {
         username: data.username,

@@ -7,6 +7,7 @@
     ref="formRef"
     v-show="getShow"
     @keypress.enter="handleLogin"
+    autocomplete="off"
   >
     <FormItem name="username" class="enter-x">
       <Input
@@ -25,28 +26,13 @@
       />
     </FormItem>
 
-    <!-- <ARow class="enter-x">
-      <ACol :span="12" />
-      <ACol :span="12">
-        <FormItem :style="{ 'text-align': 'right' }">
-          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
-            忘记密码
-          </Button>
-        </FormItem>
-      </ACol>
-    </ARow> -->
-
     <FormItem class="enter-x">
       <Button type="primary" size="large" block @click="handleLogin" :loading="loading">
         登录
       </Button>
     </FormItem>
     <ARow class="enter-x" justify="space-between">
-      <ACol :md="8" :xs="24">
-        <!-- <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          手机登录
-        </Button> -->
-      </ACol>
+      <ACol :md="8" :xs="24" />
       <ACol :md="6" :xs="24">
         <Button block @click="setLoginState(LoginStateEnum.REGISTER)">注册</Button>
       </ACol>
@@ -83,8 +69,8 @@
   const loading = ref(false);
 
   const formData = reactive({
-    username: 'admin',
-    password: '123456',
+    username: '',
+    password: '',
   });
 
   const { validForm } = useFormValid(formRef);

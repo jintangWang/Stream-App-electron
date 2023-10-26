@@ -62,3 +62,10 @@ export function testRetry() {
     },
   );
 }
+
+/**
+ * @description: getUserInfo
+ */
+export function getUserTags() {
+  return defHttp.get<any[]>({ url: '/label/getAll' });
+}
