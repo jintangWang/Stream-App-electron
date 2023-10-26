@@ -84,7 +84,6 @@
 
       // 上传modal保存操作
       function handleChange(urls: string[]) {
-        console.log('handleChange', fileList.value);
         fileList.value = [...unref(fileList), ...(urls || [])];
         emit('update:value', fileList.value);
         emit('change', fileList.value);

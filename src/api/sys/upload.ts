@@ -20,3 +20,11 @@ export function uploadApi(
     params,
   );
 }
+
+/**
+ * @description: 创建媒体资源
+ */
+
+export const createMedia = (params) => {
+  return defHttp.post<any>({ url: '/storage/upload/imageSave', params });
+};
