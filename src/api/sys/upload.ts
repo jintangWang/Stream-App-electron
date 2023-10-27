@@ -6,7 +6,7 @@ import { useGlobSetting } from '/@/hooks/setting';
 const { uploadUrl = '' } = useGlobSetting();
 
 /**
- * @description: Upload interface
+ * @description: 上传文件到文件系统
  */
 export function uploadApi(
   params: UploadFileParams,
@@ -20,6 +20,14 @@ export function uploadApi(
     params,
   );
 }
+
+/**
+ * @description: 删除上传到文件系统里的文件
+ */
+
+export const delMedia = (filePath: string) => {
+  return defHttp.delete<any>({ url: `/storage/files/${filePath}` });
+};
 
 /**
  * @description: 创建媒体资源

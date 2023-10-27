@@ -20,6 +20,8 @@
           :maxNumber="1"
           :api="uploadApi"
           :accept="['image/*']"
+          @delete="handleDeleteUpload"
+          @preview-delete="handleDeleteUploadPreview"
         />
       </a-form-item>
       <a-form-item name="url" label="流媒体">
@@ -30,6 +32,8 @@
           :maxNumber="1"
           :api="uploadApi"
           :accept="['.mp4']"
+          @delete="handleDeleteUpload"
+          @preview-delete="handleDeleteUploadPreview"
         />
       </a-form-item>
       <a-form-item name="isVip" label="是否只有VIP可见">
@@ -60,7 +64,7 @@
   import { message, Button, Select, Form } from 'ant-design-vue';
   import { getUserTags } from '/@/api/sys/user';
   import { BasicUpload } from '/@/components/Upload';
-  import { uploadApi, createMedia } from '/@/api/sys/upload';
+  import { uploadApi, delMedia, createMedia } from '/@/api/sys/upload';
   import { useUserStore } from '/@/store/modules/user';
 
   const userStore = useUserStore();
@@ -103,6 +107,27 @@
     }
   }
   httpTags();
+
+  const handleDeleteUpload = async (record: Recordable) => {
+    const filePath = record.responseData?.[0]?.url || '';
+    const fileName = filePath.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
+
+  const handleDeleteUploadPreview = async (url: string) => {
+    const fileName = url.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
 
   const handleSubmit = async () => {
     try {
