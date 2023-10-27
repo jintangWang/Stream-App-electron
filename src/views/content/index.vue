@@ -76,8 +76,6 @@
     }
   }
 
-  .@{prefix-cls} {
-  }
   .mySwiper {
     min-height: 500px;
   }

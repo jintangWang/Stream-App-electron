@@ -1,5 +1,4 @@
 import type { AppRouteModule } from '/@/router/types';
-import { RoleEnum } from '/@/enums/roleEnum';
 import { LAYOUT } from '/@/router/constant';
 
 const videoUpload: AppRouteModule = {
@@ -12,7 +11,6 @@ const videoUpload: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'mdi:upload',
     title: '流媒体上传',
-    roles: [RoleEnum.ADMIN],
   },
   children: [
     {
@@ -23,7 +21,6 @@ const videoUpload: AppRouteModule = {
         title: '流媒体上传',
         icon: 'whh:paintroll',
         hideMenu: true,
-        roles: [RoleEnum.ADMIN],
       },
     },
   ],

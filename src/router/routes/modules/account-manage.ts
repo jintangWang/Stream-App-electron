@@ -1,5 +1,5 @@
 import type { AppRouteModule } from '/@/router/types';
-
+import { RoleEnum } from '/@/enums/roleEnum';
 import { LAYOUT } from '/@/router/constant';
 
 const system: AppRouteModule = {
@@ -12,6 +12,7 @@ const system: AppRouteModule = {
     icon: 'ion:settings-outline',
     title: '账号管理',
     hideChildrenInMenu: true,
+    roles: [RoleEnum.ADMIN],
   },
   children: [
     {
@@ -20,6 +21,7 @@ const system: AppRouteModule = {
       meta: {
         title: '账号管理',
         ignoreKeepAlive: false,
+        roles: [RoleEnum.ADMIN],
       },
       component: () => import('/@/views/account-manage/index.vue'),
     },
