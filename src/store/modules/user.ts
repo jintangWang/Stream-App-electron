@@ -117,6 +117,7 @@ export const useUserStore = defineStore({
           permissionStore.setDynamicAddedRoute(true);
         }
         this.setUserRole(userInfo);
+        this.setUserInfo(userInfo);
         goHome && (await router.replace((userInfo as UserInfo)?.homePath || PageEnum.BASE_HOME));
       }
       return userInfo;

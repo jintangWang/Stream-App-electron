@@ -10,6 +10,17 @@
           <span class="label">用户名</span>
           <span class="value">{{ userinfo.username }}</span>
         </div>
+        <div class="row">
+          <span class="label">用户角色</span>
+          <span class="value">{{ userinfo.roleList?.[0].name }}</span>
+        </div>
+        <div class="row">
+          <span class="label">用户标签</span>
+          <span class="value">
+            <Tag v-for="label in userinfo.labels" :key="label">{{ label }}</Tag>
+          </span>
+        </div>
+        <!-- TODO 已上传视频数量 -->
         <!-- <div class="row">
           <span class="label">性别</span>
           <span class="value">{{ userinfo.gender === 'MALE' ? '男' : '女' }}</span>
@@ -30,6 +41,7 @@
   import { BasicForm, useForm } from '/@/components/Form';
   import { useUserStore } from '/@/store/modules/user';
   import { getAppEnvConfig } from '/@/utils/env';
+  import { Tag } from 'ant-design-vue';
 
   import { formSchema } from './profile.data';
   export default defineComponent({
