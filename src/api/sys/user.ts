@@ -73,8 +73,21 @@ export function testRetry() {
 }
 
 /**
- * @description: getUserInfo
+ * @description: 获取标签库
  */
 export function getUserTags() {
   return defHttp.get<any[]>({ url: '/label/getAll' });
+}
+
+/**
+ * @description: 获取用户日志
+ */
+export function getUserLogs(params) {
+  return defHttp.get<any[]>({
+    url: '/logs',
+    params: {
+      page: params.page,
+      size: params.size,
+    },
+  });
 }
