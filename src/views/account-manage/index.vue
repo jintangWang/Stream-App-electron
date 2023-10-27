@@ -69,7 +69,8 @@
           schemas: searchFormSchema,
           autoSubmitOnEnter: true,
         },
-        useSearchForm: true,
+        // useSearchForm: true,
+        useSearchForm: false,
         showTableSetting: true,
         bordered: true,
         handleSearchInfoFn(info) {
