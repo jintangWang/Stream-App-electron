@@ -19,7 +19,7 @@
           :style="{ backgroundImage: 'url(' + imageUrl + item?.movie?.backdrop_path + ')' }"
         >
           <div class="new-release-footer">
-            <PlayCircleOutlined class="play-icon" />
+            <PlayCircleOutlined class="play-icon" @click="goInfo(item)" />
             <div class="new-releases-description">
               <h3 class="release-title">{{ item?.movie?.title }}</h3>
               <p class="release-desc">
@@ -36,7 +36,7 @@
         <img :src="item?.poster_path" alt="" />
         <div class="item-mask">
           <h3 class="release-title">{{ item?.title }}</h3>
-          <PlayCircleOutlined class="play-icon" />
+          <PlayCircleOutlined class="play-icon" @click="goInfo(item)" />
         </div>
       </div>
     </section>
@@ -53,7 +53,9 @@
   import 'swiper/css/navigation';
   import 'swiper/css/pagination';
   import { PlayCircleOutlined } from '@ant-design/icons-vue';
+  import { useGo } from '/@/hooks/web/usePage';
 
+  const go = useGo();
   // const { prefixVar } = useDesign('')
   const autoPlayOptions = {
     delay: 5000,
@@ -62,7 +64,11 @@
   const modules = [Navigation, Pagination, Mousewheel, Keyboard, Autoplay];
 
   const imageUrl = import.meta.env.VITE_IMAGE_URL;
-  console.log(typeof imageUrl);
+
+  const goInfo = (item) => {
+    console.log(item);
+    go('info');
+  };
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-content';
