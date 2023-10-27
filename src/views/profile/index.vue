@@ -18,6 +18,7 @@
           <span class="label">用户标签</span>
           <span class="value">
             <Tag v-for="label in userinfo.labels" :key="label">{{ label }}</Tag>
+            <span v-if="!userinfo.labels || userinfo.labels?.length === 0">--</span>
           </span>
         </div>
         <!-- TODO 已上传视频数量 -->
