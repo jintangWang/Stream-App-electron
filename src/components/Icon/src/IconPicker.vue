@@ -2,7 +2,7 @@
   <a-input
     disabled
     :style="{ width }"
-    :placeholder="t('component.icon.placeholder')"
+    placeholder="点击选择图标"
     :class="prefixCls"
     v-model:value="currentSelect"
   >
@@ -16,7 +16,7 @@
         <template #title>
           <div class="flex justify-between">
             <a-input
-              :placeholder="t('component.icon.search')"
+              placeholder="搜索图标"
               @change="debounceHandleSearchChange"
               allowClear
             />
@@ -153,7 +153,7 @@
     if (props.copy) {
       clipboardRef.value = icon;
       if (unref(isSuccessRef)) {
-        createMessage.success(t('component.icon.copy'));
+        createMessage.success("复制图标成功!");
       }
     }
   }

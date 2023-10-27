@@ -1,6 +1,6 @@
 <template>
   <Tooltip
-    :title="t('layout.header.tooltipErrorLog')"
+    title="错误日志"
     placement="bottom"
     :mouseEnterDelay="0.5"
     @click="handleToErrorList"

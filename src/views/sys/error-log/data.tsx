@@ -9,7 +9,7 @@ export function getColumns(): BasicColumn[] {
   return [
     {
       dataIndex: 'type',
-      title: t('sys.errorLog.tableColumnType'),
+      title: "类型",
       width: 80,
       customRender: ({ text }) => {
         const color =
@@ -32,12 +32,12 @@ export function getColumns(): BasicColumn[] {
     },
     {
       dataIndex: 'time',
-      title: t('sys.errorLog.tableColumnDate'),
+      title: "时间",
       width: 160,
     },
     {
       dataIndex: 'file',
-      title: t('sys.errorLog.tableColumnFile'),
+      title: "文件",
       width: 200,
     },
     {
@@ -47,12 +47,12 @@ export function getColumns(): BasicColumn[] {
     },
     {
       dataIndex: 'message',
-      title: t('sys.errorLog.tableColumnMsg'),
+      title: "错误信息",
       width: 300,
     },
     {
       dataIndex: 'stack',
-      title: t('sys.errorLog.tableColumnStackMsg'),
+      title: "stack信息",
     },
   ];
 }

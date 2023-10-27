@@ -31,7 +31,7 @@
 
       const getButtonText = computed(() => {
         return !unref(isStart)
-          ? t('component.countdown.normalText')
+          ? "获取验证码"
           : t('component.countdown.sendText', [unref(currentCount)]);
       });
 

@@ -9,7 +9,7 @@
       accept=".jpg,.jpeg,.gif,.png,.webp"
     >
       <a-button type="primary" v-bind="{ ...getButtonProps }">
-        {{ t('component.upload.imgUpload') }}
+        {{ "图片上传" }}
       </a-button>
     </Upload>
   </div>

@@ -237,7 +237,7 @@
           return createMessage.warning(`最多只能上传${maxNumber}个文件`);
         }
         if (isUploadingRef.value) {
-          return createMessage.warning(t('component.upload.saveWarn'));
+          return createMessage.warning("请等待文件上传后，保存!");
         }
         const fileList: string[] = [];
 
@@ -250,7 +250,7 @@
         }
         // 存在一个上传成功的即可保存
         if (fileList.length <= 0) {
-          return createMessage.warning(t('component.upload.saveError'));
+          return createMessage.warning("没有上传成功的文件，无法保存!");
         }
         fileListRef.value = [];
         closeModal();
@@ -263,7 +263,7 @@
           fileListRef.value = [];
           return true;
         } else {
-          createMessage.warning(t('component.upload.uploadWait'));
+          createMessage.warning("请等待文件上传结束后操作");
           return false;
         }
       }

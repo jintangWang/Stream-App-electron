@@ -162,15 +162,15 @@ const transform: AxiosTransform = {
 
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        errMessage = t('sys.api.apiTimeoutMessage');
+        errMessage = "接口请求超时,请刷新页面重试!";
       }
       if (err?.includes('Network Error')) {
-        errMessage = t('sys.api.networkExceptionMsg');
+        errMessage = "网络异常，请检查您的网络连接是否正常!";
       }
 
       if (errMessage) {
         if (errorMessageMode === 'modal') {
-          createErrorModal({ title: t('sys.api.errorTip'), content: errMessage });
+          createErrorModal({ title: "错误提示", content: errMessage });
         } else if (errorMessageMode === 'message') {
           createMessage.error(errMessage);
         }

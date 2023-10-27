@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     v-bind="$attrs"
-    :title="t('component.excel.exportModalTitle')"
+    title="导出数据"
     @ok="handleOk"
     @register="registerModal"
   >
@@ -27,13 +27,13 @@
     {
       field: 'filename',
       component: 'Input',
-      label: t('component.excel.fileName'),
+      label: "文件名",
       rules: [{ required: true }],
     },
     {
       field: 'bookType',
       component: 'Select',
-      label: t('component.excel.fileType'),
+      label: "文件类型",
       defaultValue: 'xlsx',
       rules: [{ required: true }],
       componentProps: {

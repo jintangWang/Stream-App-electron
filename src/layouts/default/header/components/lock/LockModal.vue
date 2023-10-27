@@ -1,7 +1,7 @@
 <template>
   <BasicModal
     :footer="null"
-    :title="t('layout.header.lockScreen')"
+    title="锁定屏幕"
     v-bind="$attrs"
     :class="prefixCls"
     @register="register"
@@ -18,7 +18,7 @@
 
       <div :class="`${prefixCls}__footer`">
         <a-button type="primary" block class="mt-2" @click="handleLock">
-          {{ t('layout.header.lockScreenBtn') }}
+          {{ "锁定" }}
         </a-button>
       </div>
     </div>
@@ -52,7 +52,7 @@
         schemas: [
           {
             field: 'password',
-            label: t('layout.header.lockScreenPassword'),
+            label: "锁屏密码",
             colProps: {
               span: 24,
             },

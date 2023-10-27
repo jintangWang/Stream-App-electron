@@ -1,7 +1,7 @@
 <template>
   <Tooltip placement="top">
     <template #title>
-      <span>{{ t('component.table.settingColumn') }}</span>
+      <span>{{ "列设置" }}</span>
     </template>
     <Popover
       placement="bottomLeft"
@@ -17,11 +17,11 @@
             v-model:checked="checkAll"
             @change="onCheckAllChange"
           >
-            {{ t('component.table.settingColumnShow') }}
+            {{ "列展示" }}
           </Checkbox>
 
           <Checkbox v-model:checked="checkIndex" @change="handleIndexCheckChange">
-            {{ t('component.table.settingIndexColumnShow') }}
+            {{"序号列" }}
           </Checkbox>
 
           <Checkbox
@@ -29,11 +29,11 @@
             @change="handleSelectCheckChange"
             :disabled="!defaultRowSelection"
           >
-            {{ t('component.table.settingSelectColumnShow') }}
+            {{ "勾选列" }}
           </Checkbox>
 
           <a-button size="small" type="link" @click="reset">
-            {{ t('common.resetText') }}
+            {{ "设置" }}
           </a-button>
         </div>
       </template>
@@ -54,7 +54,7 @@
                   :getPopupContainer="getPopupContainer"
                 >
                   <template #title>
-                    {{ t('component.table.settingFixedLeft') }}
+                    {{ "固定到左侧" }}
                   </template>
                   <Icon
                     icon="line-md:arrow-align-left"
@@ -75,7 +75,7 @@
                   :getPopupContainer="getPopupContainer"
                 >
                   <template #title>
-                    {{ t('component.table.settingFixedRight') }}
+                    {{ "固定到右侧" }}
                   </template>
                   <Icon
                     icon="line-md:arrow-align-left"

@@ -135,5 +135,6 @@
     "sider",
     "pnpm",
     "antd"
-  ]
+  ],
+  "vue-i18n.i18nPaths": "src\\locales,src\\locales\\lang,public\\resource\\tinymce\\langs"
 }

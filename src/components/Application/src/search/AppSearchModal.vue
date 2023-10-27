@@ -19,7 +19,7 @@
           </div>
 
           <div :class="`${prefixCls}-not-data`" v-show="getIsNotData">
-            {{ t('component.app.searchNotData') }}
+            {{ "暂无搜索结果" }}
           </div>
 
           <ul :class="`${prefixCls}-list`" v-show="!getIsNotData" ref="scrollWrap">

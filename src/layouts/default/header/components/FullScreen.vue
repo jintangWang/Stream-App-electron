@@ -23,8 +23,8 @@
 
       const getTitle = computed(() => {
         return unref(isFullscreen)
-          ? t('layout.header.tooltipExitFull')
-          : t('layout.header.tooltipEntryFull');
+          ? "退出全屏"
+          : "全屏";
       });
 
       return {
