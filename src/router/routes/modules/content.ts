@@ -23,6 +23,14 @@ const content: AppRouteModule = {
         title: '媒体库',
       },
     },
+    {
+      path: 'info',
+      name: 'ContentInfo',
+      component: () => import('/@/views/content/Info.vue'),
+      meta: {
+        title: '流媒体详情',
+      },
+    },
   ],
 };
 
