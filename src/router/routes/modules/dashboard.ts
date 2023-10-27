@@ -6,7 +6,6 @@ const dashboard: AppRouteModule = {
   path: '/dashboard',
   name: 'Dashboard',
   component: LAYOUT,
-  redirect: '/dashboard/workbench',
   meta: {
     orderNo: 200,
     icon: 'ion:grid-outline',
@@ -15,9 +14,9 @@ const dashboard: AppRouteModule = {
   },
   children: [
     {
-      path: 'workbench',
+      path: '',
       name: 'Workbench',
-      component: () => import('/@/views/dashboard/workbench/index.vue'),
+      component: () => import('/@/views/dashboard/index.vue'),
       meta: {
         title: '工作台',
       },
