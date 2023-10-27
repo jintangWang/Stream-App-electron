@@ -142,11 +142,11 @@
                 <span class={[`ir-dv-img__tip`, state.isPassing ? 'success' : 'error']}>
                   {state.isPassing
                     ? t('component.verify.time', { time: time.toFixed(1) })
-                    : t('component.verify.error')}
+                    : "验证失败"}
                 </span>
               )}
               {!state.showTip && !state.draged && (
-                <span class={[`ir-dv-img__tip`, 'normal']}>{t('component.verify.redoTip')}</span>
+                <span class={[`ir-dv-img__tip`, 'normal']}>{"点击图片可刷新"}</span>
               )}
             </div>
             <BasicDragVerify

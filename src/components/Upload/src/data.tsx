@@ -91,7 +91,7 @@ export function createActionColumn(handleRemove: Function): BasicColumn {
       ];
       // if (checkImgType(record)) {
       //   actions.unshift({
-      //     label: t('component.upload.preview'),
+      //     label: "预览",
       //     onClick: handlePreview.bind(null, record),
       //   });
       // }

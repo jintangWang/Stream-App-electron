@@ -17,7 +17,7 @@
       v-if="showBtn"
       v-bind="btnProps"
     >
-      {{ btnText ? btnText : t('component.cropper.selectImage') }}
+      {{ btnText ? btnText : "选择图片" }}
     </a-button>
 
     <CopperModal
@@ -94,7 +94,7 @@
       function handleUploadSuccess({ source }) {
         sourceValue.value = source;
         emit('change', source);
-        createMessage.success(t('component.cropper.uploadSuccess'));
+        createMessage.success("上传成功");
       }
 
       expose({ openModal: openModal.bind(null, true), closeModal });

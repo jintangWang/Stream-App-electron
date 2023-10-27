@@ -2,11 +2,11 @@
   <BasicModal
     v-bind="$attrs"
     @register="register"
-    :title="t('component.cropper.modalTitle')"
+    title="头像上传"
     width="800px"
     :canFullscreen="false"
     @ok="handleOk"
-    :okText="t('component.cropper.okText')"
+    okText="确认并上传"
   >
     <div :class="prefixCls">
       <div :class="`${prefixCls}-left`">
@@ -23,12 +23,12 @@
 
         <div :class="`${prefixCls}-toolbar`">
           <Upload :fileList="[]" accept="image/*" :beforeUpload="handleBeforeUpload">
-            <Tooltip :title="t('component.cropper.selectImage')" placement="bottom">
+            <Tooltip title="选择图片" placement="bottom">
               <a-button size="small" preIcon="ant-design:upload-outlined" type="primary" />
             </Tooltip>
           </Upload>
           <Space>
-            <Tooltip :title="t('component.cropper.btn_reset')" placement="bottom">
+            <Tooltip title="重置" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="ant-design:reload-outlined"
@@ -37,7 +37,7 @@
                 @click="handlerToolbar('reset')"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_rotate_left')" placement="bottom">
+            <Tooltip title="逆时针旋转" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="ant-design:rotate-left-outlined"
@@ -46,7 +46,7 @@
                 @click="handlerToolbar('rotate', -45)"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_rotate_right')" placement="bottom">
+            <Tooltip title="顺时针旋转" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="ant-design:rotate-right-outlined"
@@ -55,7 +55,7 @@
                 @click="handlerToolbar('rotate', 45)"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_scale_x')" placement="bottom">
+            <Tooltip title="水平翻转" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="vaadin:arrows-long-h"
@@ -64,7 +64,7 @@
                 @click="handlerToolbar('scaleX')"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_scale_y')" placement="bottom">
+            <Tooltip title="垂直翻转" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="vaadin:arrows-long-v"
@@ -73,7 +73,7 @@
                 @click="handlerToolbar('scaleY')"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_zoom_in')" placement="bottom">
+            <Tooltip title="放大" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="ant-design:zoom-in-outlined"
@@ -82,7 +82,7 @@
                 @click="handlerToolbar('zoom', 0.1)"
               />
             </Tooltip>
-            <Tooltip :title="t('component.cropper.btn_zoom_out')" placement="bottom">
+            <Tooltip title="缩小" placement="bottom">
               <a-button
                 type="primary"
                 preIcon="ant-design:zoom-out-outlined"
@@ -96,7 +96,7 @@
       </div>
       <div :class="`${prefixCls}-right`">
         <div :class="`${prefixCls}-preview`">
-          <img :src="previewSource" v-if="previewSource" :alt="t('component.cropper.preview')" />
+          <img :src="previewSource" v-if="previewSource" alt="预览" />
         </div>
         <template v-if="previewSource">
           <div :class="`${prefixCls}-group`">

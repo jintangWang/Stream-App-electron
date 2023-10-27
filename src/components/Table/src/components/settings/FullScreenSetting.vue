@@ -1,7 +1,7 @@
 <template>
   <Tooltip placement="top">
     <template #title>
-      <span>{{ t('component.table.settingFullScreen') }}</span>
+      <span>{{ "全屏" }}</span>
     </template>
     <FullscreenOutlined @click="toggle" v-if="!isFullscreen" />
     <FullscreenExitOutlined @click="toggle" v-else />

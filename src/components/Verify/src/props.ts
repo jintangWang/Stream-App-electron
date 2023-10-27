@@ -15,11 +15,11 @@ export const basicProps = {
 
   text: {
     type: [String] as PropType<string>,
-    default: t('component.verify.dragText'),
+    default: "请按住滑块拖动",
   },
   successText: {
     type: [String] as PropType<string>,
-    default: t('component.verify.successText'),
+    default: "验证通过",
   },
   height: {
     type: [Number, String] as PropType<number | string>,

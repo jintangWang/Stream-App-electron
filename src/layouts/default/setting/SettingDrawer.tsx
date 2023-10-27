@@ -327,7 +327,7 @@ export default defineComponent({
           />
 
           <SwitchItem
-            title={t('layout.setting.header')}
+            title={"顶栏"}
             event={HandlerEnum.HEADER_SHOW}
             def={unref(getShowHeader)}
           />
@@ -338,24 +338,24 @@ export default defineComponent({
             disabled={unref(getIsMixSidebar)}
           />
           <SwitchItem
-            title={t('layout.setting.footer')}
+            title={"页脚"}
             event={HandlerEnum.SHOW_FOOTER}
             def={unref(getShowFooter)}
           />
           <SwitchItem
-            title={t('layout.setting.fullContent')}
+            title={"全屏内容"}
             event={HandlerEnum.FULL_CONTENT}
             def={unref(getFullContent)}
           />
 
           <SwitchItem
-            title={t('layout.setting.grayMode')}
+            title={"灰色模式"}
             event={HandlerEnum.GRAY_MODE}
             def={unref(getGrayMode)}
           />
 
           <SwitchItem
-            title={t('layout.setting.colorWeak')}
+            title={"色弱模式"}
             event={HandlerEnum.COLOR_WEAK}
             def={unref(getColorWeak)}
           />
@@ -367,24 +367,24 @@ export default defineComponent({
       return (
         <>
           <SwitchItem
-            title={t('layout.setting.progress')}
+            title={"顶部进度条"}
             event={HandlerEnum.OPEN_PROGRESS}
             def={unref(getOpenNProgress)}
           />
           <SwitchItem
-            title={t('layout.setting.switchLoading')}
+            title={"切换loading"}
             event={HandlerEnum.OPEN_PAGE_LOADING}
             def={unref(getOpenPageLoading)}
           />
 
           <SwitchItem
-            title={t('layout.setting.switchAnimation')}
+            title={"切换动画"}
             event={HandlerEnum.OPEN_ROUTE_TRANSITION}
             def={unref(getEnableTransition)}
           />
 
           <SelectItem
-            title={t('layout.setting.animationType')}
+            title={"动画类型"}
             event={HandlerEnum.ROUTER_TRANSITION}
             def={unref(getBasicTransition)}
             options={routerTransitionOptions}
@@ -397,25 +397,25 @@ export default defineComponent({
     return () => (
       <BasicDrawer
         {...attrs}
-        title={t('layout.setting.drawerTitle')}
+        title={"项目配置"}
         width={330}
         class="setting-drawer"
       >
-        {unref(getShowDarkModeToggle) && <Divider>{() => t('layout.setting.darkMode')}</Divider>}
+        {unref(getShowDarkModeToggle) && <Divider>{() => "主题"}</Divider>}
         {unref(getShowDarkModeToggle) && <AppDarkModeToggle class="mx-auto" />}
-        <Divider>{() => t('layout.setting.navMode')}</Divider>
+        <Divider>{() => "导航栏模式"}</Divider>
         {renderSidebar()}
-        <Divider>{() => t('layout.setting.sysTheme')}</Divider>
+        <Divider>{() => "系统主题"}</Divider>
         {renderMainTheme()}
-        <Divider>{() => t('layout.setting.headerTheme')}</Divider>
+        <Divider>{() => "顶栏主题"}</Divider>
         {renderHeaderTheme()}
-        <Divider>{() => t('layout.setting.sidebarTheme')}</Divider>
+        <Divider>{() => "菜单主题"}</Divider>
         {renderSiderTheme()}
-        <Divider>{() => t('layout.setting.interfaceFunction')}</Divider>
+        <Divider>{() => "界面功能"}</Divider>
         {renderFeatures()}
-        <Divider>{() => t('layout.setting.interfaceDisplay')}</Divider>
+        <Divider>{() => "界面显示"}</Divider>
         {renderContent()}
-        <Divider>{() => t('layout.setting.animation')}</Divider>
+        <Divider>{() => "动画"}</Divider>
         {renderTransition()}
         <Divider />
         <SettingFooter />

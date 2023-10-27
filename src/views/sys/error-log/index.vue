@@ -7,13 +7,13 @@
     <BasicTable @register="register" class="error-handle-table">
       <template #toolbar>
         <a-button @click="fireVueError" type="primary">
-          {{ t('sys.errorLog.fireVueError') }}
+          {{"点击触发vue错误"}}
         </a-button>
         <a-button @click="fireResourceError" type="primary">
-          {{ t('sys.errorLog.fireResourceError') }}
+          {{ "点击触发资源加载错误" }}
         </a-button>
         <a-button @click="fireAjaxError" type="primary">
-          {{ t('sys.errorLog.fireAjaxError') }}
+          {{ "点击触发ajax错误" }}
         </a-button>
       </template>
       <template #action="{ record }">
@@ -46,7 +46,7 @@
   const { t } = useI18n();
   const errorLogStore = useErrorLogStore();
   const [register, { setTableData }] = useTable({
-    title: t('sys.errorLog.tableTitle'),
+    title: "错误日志列表",
     columns: getColumns(),
     actionColumn: {
       width: 80,
@@ -70,7 +70,7 @@
   );
   const { createMessage } = useMessage();
   if (import.meta.env.DEV) {
-    createMessage.info(t('sys.errorLog.enableMessage'));
+    createMessage.info("只在/src/settings/projectSetting.ts 内的us…	");
   }
   // 查看详情
   function handleDetail(row: ErrorLogInfo) {

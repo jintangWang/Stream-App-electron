@@ -2,17 +2,17 @@
   <div :class="prefixCls">
     <a-button type="primary" block @click="handleCopy">
       <CopyOutlined class="mr-2" />
-      {{ t('layout.setting.copyBtn') }}
+      {{ "拷贝" }}
     </a-button>
 
     <a-button color="warning" block @click="handleResetSetting" class="my-3">
       <RedoOutlined class="mr-2" />
-      {{ t('common.resetText') }}
+      {{ "重置" }}
     </a-button>
 
     <a-button color="error" block @click="handleClearAndRedo">
       <RedoOutlined class="mr-2" />
-      {{ t('layout.setting.clearBtn') }}
+      {{"清空缓存并返回登陆页" }}
     </a-button>
   </div>
 </template>
@@ -53,8 +53,8 @@
         );
         unref(isSuccessRef) &&
           createSuccessModal({
-            title: t('layout.setting.operatingTitle'),
-            content: t('layout.setting.operatingContent'),
+            title: "操作成功",
+            content: "复制成功,请到 src/settings/projectSetting.ts 中…",
           });
       }
       function handleResetSetting() {
@@ -64,7 +64,7 @@
           // updateTheme(themeColor);
           updateColorWeak(colorWeak);
           updateGrayMode(grayMode);
-          createMessage.success(t('layout.setting.resetSuccess'));
+          createMessage.success("重置成功");
         } catch (error: any) {
           createMessage.error(error);
         }

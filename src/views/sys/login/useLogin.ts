@@ -46,10 +46,10 @@ export function useFormRules(formData?: Recordable) {
   const validateConfirmPassword = (password: string) => {
     return async (_: RuleObject, value: string) => {
       if (!value) {
-        return Promise.reject(t('sys.login.passwordPlaceholder'));
+        return Promise.reject("请输入密码");
       }
       if (value !== password) {
-        return Promise.reject(t('sys.login.diffPwd'));
+        return Promise.reject("两次输入密码不一致");
       }
       return Promise.resolve();
     };

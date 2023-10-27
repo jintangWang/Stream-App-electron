@@ -1,7 +1,7 @@
 <template>
   <Tooltip placement="top">
     <template #title>
-      <span>{{ t('component.table.settingDens') }}</span>
+      <span>{{ "密度" }}</span>
     </template>
 
     <Dropdown placement="bottom" :trigger="['click']" :getPopupContainer="getPopupContainer">
@@ -9,13 +9,13 @@
       <template #overlay>
         <Menu @click="handleTitleClick" selectable v-model:selectedKeys="selectedKeysRef">
           <MenuItem key="default">
-            <span>{{ t('component.table.settingDensDefault') }}</span>
+            <span>{{ "默认" }}</span>
           </MenuItem>
           <MenuItem key="middle">
-            <span>{{ t('component.table.settingDensMiddle') }}</span>
+            <span>{{ "中等" }}</span>
           </MenuItem>
           <MenuItem key="small">
-            <span>{{ t('component.table.settingDensSmall') }}</span>
+            <span>{{ "紧凑" }}</span>
           </MenuItem>
         </Menu>
       </template>
