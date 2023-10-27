@@ -22,23 +22,37 @@
         </template>
         <template v-else-if="column.key === 'action'">
           <span>
-            <a>编辑</a>
+            <a @click="handleEdit(record)">编辑</a>
             <a-divider type="vertical" />
-            <a>删除</a>
+            <Popconfirm
+              title="是否确认删除？"
+              ok-text="确定"
+              cancel-text="取消"
+              @confirm="handleDel(record)"
+            >
+              <a>删除</a>
+            </Popconfirm>
             <a-divider type="vertical" />
           </span>
         </template>
       </template>
     </a-table>
+    <VideoEditModal @register="register" :info="curMedia" @updated="refreshList" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { ref, reactive, nextTick } from 'vue';
+  import { ref } from 'vue';
   import listMovies from '/@/assets/json/listMovies.json';
   import { formatToDateTime } from '/@/utils/dateUtil';
+  import { Popconfirm, message } from 'ant-design-vue';
+  import { mediaList, delMedia } from '/@/api/sys/media';
+  import VideoEditModal from './VideoEditModal.vue';
+  import { useModal } from '/@/components/Modal';
 
   const dataSource = listMovies.list;
+  const [register, { openModal }] = useModal();
+  const curMedia = ref<any>({});
 
   const columns = [
     {
@@ -71,6 +85,26 @@
       key: 'action',
     },
   ];
+
+  const refreshList = () => {
+    console.log('refreshList');
+  };
+
+  const handleEdit = async (record: any) => {
+    curMedia.value = record;
+    openModal();
+  };
+
+  const handleDel = async (record: any) => {
+    console.log(record);
+    try {
+      await delMedia(record.id);
+      message.success(`删除成功`);
+      // TODO 刷新列表
+    } catch (e) {
+      message.error(`删除失败`);
+    }
+  };
 </script>
 <style lang="less" scoped>
   @prefix-cls: ~'@{namespace}-content';

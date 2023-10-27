@@ -1,30 +1,29 @@
-import { UploadApiResult } from './model/uploadModel';
 import { defHttp } from '/@/utils/http/axios';
-import { UploadFileParams } from '/#/axios';
-import { useGlobSetting } from '/@/hooks/setting';
-
-const { uploadUrl = '' } = useGlobSetting();
 
 /**
- * @description: Upload interface
+ * @description: 媒体资源列表
  */
-export function uploadApi(
-  params: UploadFileParams,
-  onUploadProgress: (progressEvent: ProgressEvent) => void,
-) {
-  return defHttp.uploadFile<UploadApiResult>(
-    {
-      url: uploadUrl,
-      onUploadProgress,
-    },
-    params,
-  );
-}
+export const mediaList = (params) => {
+  return defHttp.get<any>({ url: '/images', params });
+};
 
 /**
- * @description: 创建媒体资源
+ * @description: 根据 labels 获取媒体资源列表
  */
+export const mediaListByLabels = (labelIds) => {
+  return defHttp.get<any>({ url: '/images/getAllByLabelIds', params: { labelIds: labelIds } });
+};
 
-export const createMedia = (params) => {
-  return defHttp.post<any>({ url: '/upload/imageSave', params });
+/**
+ * @description: 更新媒体资源
+ */
+export const updateMedia = (imageId, params) => {
+  return defHttp.put<any>({ url: `/images/${imageId}`, params });
+};
+
+/**
+ * @description: 删除媒体资源
+ */
+export const delMedia = (imageId) => {
+  return defHttp.delete<any>({ url: `/images/${imageId}` });
 };

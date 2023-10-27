@@ -10,23 +10,27 @@
       <template #action="{ record }">
         <TableAction
           :actions="[
-            searchInfo.roleId === 3 && {
-              icon: 'material-symbols:volunteer-activism-outline-sharp',
-              tooltip: '设置为VIP用户',
-              popConfirm: {
-                title: '是否确认开通其VIP权限',
-                confirm: handleEdit.bind(null, record),
-              },
-            },
-            record.username !== 'admin' && {
-              icon: 'ant-design:delete-outlined',
-              color: 'error',
-              tooltip: '删除此账号',
-              popConfirm: {
-                title: '是否确认删除',
-                confirm: handleDelete.bind(null, record),
-              },
-            },
+            searchInfo.roleId === 3
+              ? {
+                  icon: 'material-symbols:volunteer-activism-outline-sharp',
+                  tooltip: '设置为VIP用户',
+                  popConfirm: {
+                    title: '是否确认开通其VIP权限',
+                    confirm: handleEdit.bind(null, record),
+                  },
+                }
+              : {},
+            record.username !== 'admin'
+              ? {
+                  icon: 'ant-design:delete-outlined',
+                  color: 'error',
+                  tooltip: '删除此账号',
+                  popConfirm: {
+                    title: '是否确认删除',
+                    confirm: handleDelete.bind(null, record),
+                  },
+                }
+              : {},
           ]"
         />
       </template>
@@ -43,7 +47,7 @@
   import { message } from 'ant-design-vue';
 
   import { columns, searchFormSchema } from './account.data';
-  import { useGo } from '/@/hooks/web/usePage';
+  // import { useGo } from '/@/hooks/web/usePage';
   import { getAppEnvConfig } from '/@/utils/env';
 
   export default defineComponent({
@@ -51,7 +55,7 @@
     components: { BasicTable, PageWrapper, RoleTree, TableAction },
     setup() {
       const { VITE_GLOB_API_URL } = getAppEnvConfig();
-      const go = useGo();
+      // const go = useGo();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
         title: '账号列表',
