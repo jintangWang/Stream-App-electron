@@ -12,13 +12,9 @@
         <template v-else-if="column.key === 'isVip'">
           <span>{{ record.isVip ? '是' : '否' }}</span>
         </template>
-        <template v-else-if="column.key === 'genre'">
-          <div class="tag-wrap">
-            <a-tag
-              v-for="tag in record.genre"
-              :key="tag.name"
-              :color="tag.name.length > 5 ? 'geekblue' : 'green'"
-            >
+        <template v-else-if="column.key === 'labels'">
+          <div class="tag-wrap flex items-center">
+            <a-tag v-for="tag in record.labels" :key="tag.name">
               {{ tag.name.toUpperCase() }}
             </a-tag>
           </div>
@@ -40,7 +36,7 @@
         </template>
       </template>
     </a-table>
-    <VideoEditModal @register="register" :info="curMedia" @updated="refreshList" />
+    <VideoEditModal @register="register" :info="curMedia" @updated="httpList" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -89,8 +85,8 @@
     },
     {
       title: '标签',
-      dataIndex: 'genre',
-      key: 'genre',
+      dataIndex: 'labels',
+      key: 'labels',
     },
     {
       title: '操作',
@@ -114,10 +110,6 @@
   };
   httpList();
 
-  const refreshList = () => {
-    console.log('refreshList');
-  };
-
   const handleEdit = async (record: any) => {
     curMedia.value = record;
     openModal();
@@ -128,7 +120,7 @@
     try {
       await delMedia(record.id);
       message.success(`删除成功`);
-      // TODO 刷新列表
+      httpList();
     } catch (e) {
       message.error(`删除失败`);
     }
@@ -152,10 +144,5 @@
   .poster-img {
     width: 60px;
     // height: 80px;
-  }
-  .tag-wrap {
-    .ant-tag {
-      margin-top: 8px;
-    }
   }
 </style>

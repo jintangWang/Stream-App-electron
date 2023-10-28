@@ -17,8 +17,9 @@
           :auto-size="{ minRows: 4, maxRows: 6 }"
         />
       </a-form-item>
-      <a-form-item name="" label="流媒体缩略图" />
-      <a-form-item name="" label="流媒体" />
+      <a-form-item name="posterPath" label="流媒体缩略图">
+        <img :src="baseUrl + '/' + formState?.posterPath" alt="posterPath" class="w-80px" />
+      </a-form-item>
       <a-form-item name="isVip" label="是否只有VIP可见">
         <a-switch v-model:checked="formState.isVip" />
       </a-form-item>
@@ -38,28 +39,43 @@
 </template>
 <script lang="ts" setup>
   import type { PropType } from 'vue';
+  import { watchEffect } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal/index';
-  import { reactive } from 'vue';
+  import { reactive, ref } from 'vue';
   import { message, Select, Form } from 'ant-design-vue';
   import { updateMedia } from '/@/api/sys/media';
   import { useUserStore } from '/@/store/modules/user';
+  import { getAppEnvConfig } from '/@/utils/env';
 
+  const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
   const userStore = useUserStore();
   const useForm = Form.useForm;
   const props = defineProps({
     info: Object as PropType<Recordable>,
   });
-  const emit = defineEmits(['updated']);
+  const emit = defineEmits(['updated', 'visible-change']);
 
   const formItemLayout = {
     labelCol: { span: 6 },
-    wrapperCol: { span: 14 },
+    wrapperCol: { span: 16 },
   };
 
-  const formState = reactive<Record<string, any>>({
+  const formState = ref<Record<string, any>>({
     isVip: false,
   });
   const tagOptions: any[] = reactive(userStore.getTags);
+
+  watchEffect(() => {
+    const info = props.info;
+    formState.value = {
+      title: info?.title,
+      overview: info?.overview,
+      posterPath: info?.posterPath,
+      url: info?.url,
+      isVip: info?.isVip,
+      labels: info?.labels?.map((item: any) => item.id) || [],
+    };
+  });
 
   const rulesRef = reactive({
     title: [
@@ -79,31 +95,43 @@
   const [register, { closeModal }] = useModalInner();
   const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
 
+  const resetForm = () => {
+    formState.value = {
+      title: '',
+      overview: '',
+      posterPath: '',
+      isVip: false,
+      labels: [],
+    };
+    resetFields();
+  };
+
   const handleSubmit = async () => {
-    emit('updated');
-    closeModal();
-    return;
     try {
       await validate();
     } catch (e) {
       return;
     }
-    console.log('formState', JSON.stringify(formState, null, 2));
+    // console.log('formState', JSON.stringify(formState.value, null, 2));
+    console.log({
+      title: formState.value.title,
+      overview: formState.value.overview,
+      posterPath: formState.value.posterPath,
+      isVip: formState.value.isVip,
+      labels: formState.value.labels.map((id) => ({ id: id })),
+    });
     try {
-      const res = await updateMedia(props?.info?.id, {
-        image: {
-          title: formState.title,
-          overview: formState.overview,
-          posterPath: formState.posterPath?.[0],
-          url: formState.url?.[0],
-          isVip: formState.isVip,
-          labels: formState.labels.map((id) => ({ id: id })),
-        },
+      await updateMedia(props?.info?.id, {
+        title: formState.value.title,
+        overview: formState.value.overview,
+        posterPath: formState.value.posterPath,
+        isVip: formState.value.isVip,
+        labels: formState.value.labels.map((id) => ({ id: id })),
       });
-      console.log(res);
       message.success(`流媒体更新成功`);
-      resetFields();
       emit('updated');
+      resetForm();
+      closeModal();
     } catch (error) {
       message.error(`流媒体更新失败`);
     } finally {
