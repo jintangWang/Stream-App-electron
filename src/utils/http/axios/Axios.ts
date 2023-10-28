@@ -113,7 +113,7 @@ export class VAxios {
       isFunction(responseInterceptorsCatch) &&
       this.axiosInstance.interceptors.response.use(undefined, (error) => {
         // @ts-ignore
-        responseInterceptorsCatch(this.axiosInstance, error);
+        return responseInterceptorsCatch(this.axiosInstance, error);
       });
   }
 
@@ -211,6 +211,7 @@ export class VAxios {
       this.axiosInstance
         .request<any, AxiosResponse<Result>>(conf)
         .then((res: AxiosResponse<Result>) => {
+          console.log('AxiosResponse then', res);
           if (transformRequestHook && isFunction(transformRequestHook)) {
             try {
               const ret = transformRequestHook(res, opt);

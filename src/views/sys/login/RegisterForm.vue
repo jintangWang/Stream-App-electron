@@ -129,6 +129,7 @@
       };
       await registerApi(param);
       message.success(`注册成功！`);
+      handleBackLogin();
     } catch (error) {
       message.error(`注册失败！`);
     }

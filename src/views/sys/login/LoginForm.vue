@@ -41,13 +41,9 @@
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
-
   import { Form, Input, Row, Col, Button } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
-
-  import { useI18n } from '/@/hooks/web/useI18n';
   import { useMessage } from '/@/hooks/web/useMessage';
-
   import { useUserStore } from '/@/store/modules/user';
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
@@ -57,7 +53,6 @@
   const ARow = Row;
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
-  const { t } = useI18n();
   const { notification, createErrorModal } = useMessage();
   const { prefixCls } = useDesign('login');
   const userStore = useUserStore();
@@ -98,9 +93,10 @@
         });
       }
     } catch (error) {
+      console.log('handleLogin', error);
       createErrorModal({
-        title: "错误提示",
-        content: (error as unknown as Error).message || "网络异常，请检查您的网络连接是否正常!",
+        title: '错误提示',
+        content: (error as unknown as Error).message || '网络异常，请检查您的网络连接是否正常!',
         getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
       });
     } finally {

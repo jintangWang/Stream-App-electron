@@ -14,7 +14,6 @@ import { isString } from '/@/utils/is';
 import { getToken } from '/@/utils/auth';
 import { setObjToUrlParams, deepMerge } from '/@/utils';
 import { useErrorLogStoreWithOut } from '/@/store/modules/errorLog';
-import { useI18n } from '/@/hooks/web/useI18n';
 import { joinTimestamp, formatRequestDate } from './helper';
 import { AxiosRetry } from '/@/utils/http/axios/axiosRetry';
 
@@ -38,15 +37,13 @@ const transform: AxiosTransform = {
     // 不进行任何处理，直接返回
     // 用于页面代码可能需要直接获取code，data，message这些信息时开启
     if (!isTransformResponse) {
-      return res.data;
+      return res?.data;
     }
     // 错误的时候返回
-    const { data } = res;
-    if (!data) {
-      // return '[HTTP] Request has no return value';
-      // throw new Error(t('sys.api.apiRequestFailed'));
+    if (!res?.data) {
+      return '[HTTP] Request has no return value';
     } else {
-      return data;
+      return res?.data;
     }
 
     // 在此处根据自己项目的实际情况对不同的code执行不同的操作
@@ -151,26 +148,25 @@ const transform: AxiosTransform = {
    * @description: 响应错误处理
    */
   responseInterceptorsCatch: (axiosInstance: AxiosResponse, error: any) => {
-    const { t } = useI18n();
     const errorLogStore = useErrorLogStoreWithOut();
     errorLogStore.addAjaxErrorInfo(error);
     const { response, code, message, config } = error || {};
     const errorMessageMode = config?.requestOptions?.errorMessageMode || 'none';
-    const msg: string = response?.data?.error?.message ?? '';
+    const msg: string = response?.data?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
 
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
-        errMessage = "接口请求超时,请刷新页面重试!";
+        errMessage = '接口请求超时,请刷新页面重试!';
       }
       if (err?.includes('Network Error')) {
-        errMessage = "网络异常，请检查您的网络连接是否正常!";
+        errMessage = '网络异常，请检查您的网络连接是否正常!';
       }
 
       if (errMessage) {
         if (errorMessageMode === 'modal') {
-          createErrorModal({ title: "错误提示", content: errMessage });
+          createErrorModal({ title: '错误提示', content: errMessage });
         } else if (errorMessageMode === 'message') {
           createMessage.error(errMessage);
         }
@@ -189,7 +185,7 @@ const transform: AxiosTransform = {
       isOpenRetry &&
       // @ts-ignore
       retryRequest.retry(axiosInstance, error);
-    return Promise.reject(error);
+    return Promise.reject(response?.data);
   },
 };
 
