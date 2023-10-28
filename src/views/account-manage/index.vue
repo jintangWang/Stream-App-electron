@@ -42,6 +42,7 @@
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getAccountList, delAccount } from '/@/api/demo/system';
+  import { setUserVIP } from '/@/api/sys/user';
   import { PageWrapper } from '/@/components/Page';
   import RoleTree from './RoleTree.vue';
   import { message } from 'ant-design-vue';
@@ -85,9 +86,15 @@
         },
       });
 
-      function handleEdit(record: Recordable) {
+      async function handleEdit(record: Recordable) {
         console.log(record);
-        // TODO 调用设置为vip接口
+        try {
+          await setUserVIP(record.id);
+          message.success(`设置VIP用户成功！`);
+          reload();
+        } catch (error) {
+          message.error(`设置VIP用户失败！`);
+        }
       }
 
       async function handleDelete(record: Recordable) {

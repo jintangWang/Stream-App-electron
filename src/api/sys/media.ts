@@ -22,7 +22,7 @@ export const updateMedia = (imageId, params) => {
 };
 
 /**
- * @description: 删除媒体资源
+ * @description: 删除媒体资源，会删除对应文件
  */
 export const delMedia = (imageId) => {
   return defHttp.delete<any>({ url: `/images/${imageId}` });

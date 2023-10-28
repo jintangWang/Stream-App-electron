@@ -91,3 +91,25 @@ export function getUserLogs(params) {
     },
   });
 }
+
+/**
+ * @description: 用户更新
+ */
+export function updateUser(userId: any, params: any) {
+  return defHttp.put<LoginResultModel>({
+    url: `/users/${userId}`,
+    params,
+  });
+}
+
+/**
+ * @description: 设置为 VIP
+ */
+export function setUserVIP(userId: any) {
+  return defHttp.put<LoginResultModel>({
+    url: `/roles/2/users`,
+    params: {
+      userIds: [userId],
+    },
+  });
+}
