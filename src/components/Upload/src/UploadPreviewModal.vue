@@ -42,7 +42,7 @@
             .filter((item) => !!item)
             .map((item) => {
               return {
-                url: VITE_GLOB_API_URL + item,
+                url: VITE_GLOB_API_URL + '/' + item,
                 type: item.split('.').pop() || '',
                 name: item.split('/').pop() || '',
               };

@@ -18,7 +18,30 @@
         />
       </a-form-item>
       <a-form-item name="posterPath" label="流媒体缩略图">
-        <img :src="baseUrl + '/' + formState?.posterPath" alt="posterPath" class="w-80px" />
+        <!-- <img :src="baseUrl + '/' + formState?.posterPath" alt="posterPath" class="w-80px" /> -->
+        <BasicUpload
+          v-model:value="posterList"
+          helpText="上传流媒体海报，目前大小 2M 以下的图片"
+          :maxSize="2"
+          :maxNumber="1"
+          :api="uploadApi"
+          :accept="['image/*']"
+          @delete="handleDeleteUpload"
+          @preview-delete="handleDeleteUploadPreview"
+        />
+      </a-form-item>
+      <a-form-item name="url" label="流媒体">
+        <!-- <img :src="baseUrl + '/' + formState?.posterPath" alt="posterPath" class="w-80px" /> -->
+        <BasicUpload
+          v-model:value="urlList"
+          helpText="上传流媒体文件，目前支持格式为 mp4、 大小 50M 以下的流媒体文件"
+          :maxSize="50"
+          :maxNumber="1"
+          :api="uploadApi"
+          :accept="['.mp4']"
+          @delete="handleDeleteUpload"
+          @preview-delete="handleDeleteUploadPreview"
+        />
       </a-form-item>
       <a-form-item name="isVip" label="是否只有VIP可见">
         <a-switch v-model:checked="formState.isVip" />
@@ -45,9 +68,11 @@
   import { message, Select, Form } from 'ant-design-vue';
   import { updateMedia } from '/@/api/sys/media';
   import { useUserStore } from '/@/store/modules/user';
-  import { getAppEnvConfig } from '/@/utils/env';
+  // import { getAppEnvConfig } from '/@/utils/env';
+  import { uploadApi, delMedia } from '/@/api/sys/upload';
+  import { BasicUpload } from '/@/components/Upload';
 
-  const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
+  // const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
   const userStore = useUserStore();
   const useForm = Form.useForm;
   const props = defineProps({
@@ -64,6 +89,10 @@
     isVip: false,
   });
   const tagOptions: any[] = reactive(userStore.getTags);
+  // 已上传海报列表
+  const posterList = ref<string[]>([]);
+  // 已上传视频列表
+  const urlList = ref<string[]>([]);
 
   watchEffect(() => {
     const info = props.info;
@@ -75,6 +104,8 @@
       isVip: info?.isVip,
       labels: info?.labels?.map((item: any) => item.id) || [],
     };
+    posterList.value = info?.posterPath ? [info?.posterPath] : [];
+    urlList.value = info?.url ? [info?.url] : [];
   });
 
   const rulesRef = reactive({
@@ -95,6 +126,27 @@
   const [register, { closeModal }] = useModalInner();
   const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
 
+  const handleDeleteUpload = async (record: Recordable) => {
+    const filePath = record.responseData?.[0]?.url || '';
+    const fileName = filePath.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
+
+  const handleDeleteUploadPreview = async (url: string) => {
+    const fileName = url.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
+
   const resetForm = () => {
     formState.value = {
       title: '',
@@ -112,19 +164,21 @@
     } catch (e) {
       return;
     }
+    if (!posterList.value || posterList.value.length === 0) {
+      message.error(`请上传流媒体海报！`);
+      return;
+    }
+    if (!urlList.value || urlList.value.length === 0) {
+      message.error(`请上传流媒体！`);
+      return;
+    }
     // console.log('formState', JSON.stringify(formState.value, null, 2));
-    console.log({
-      title: formState.value.title,
-      overview: formState.value.overview,
-      posterPath: formState.value.posterPath,
-      isVip: formState.value.isVip,
-      labels: formState.value.labels.map((id) => ({ id: id })),
-    });
     try {
       await updateMedia(props?.info?.id, {
         title: formState.value.title,
         overview: formState.value.overview,
-        posterPath: formState.value.posterPath,
+        posterPath: posterList.value[0],
+        url: urlList.value[0],
         isVip: formState.value.isVip,
         labels: formState.value.labels.map((id) => ({ id: id })),
       });
