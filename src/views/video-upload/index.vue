@@ -129,6 +129,16 @@
     }
   };
 
+  const resetForm = () => {
+    formState.title = '';
+    formState.overview = '';
+    formState.posterPath = '';
+    formState.url = '';
+    formState.isVip = false;
+    formState.labels = [];
+    resetFields();
+  };
+
   const handleSubmit = async () => {
     try {
       await validate();
@@ -143,10 +153,10 @@
       message.error(`请上传流媒体！`);
       return;
     }
-    console.log('formState', JSON.stringify(formState, null, 2));
+    // console.log('formState', JSON.stringify(formState, null, 2));
     try {
       loading.value = true;
-      const res = await createMedia({
+      await createMedia({
         image: {
           title: formState.title,
           overview: formState.overview,
@@ -159,9 +169,8 @@
           id: userinfo.value.userId,
         },
       });
-      console.log(res);
       message.success(`流媒体上传成功`);
-      resetFields();
+      resetForm();
     } catch (error) {
       message.error(`流媒体上传失败`);
     } finally {

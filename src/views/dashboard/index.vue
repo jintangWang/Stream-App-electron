@@ -40,7 +40,7 @@
       title: '用户',
       dataIndex: 'user',
       width: 120,
-      customRender: ({ text }) => text.username,
+      customRender: ({ text }) => text?.username,
     },
     {
       title: '操作类型',
