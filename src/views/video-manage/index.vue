@@ -3,11 +3,14 @@
   <PageWrapper title="流媒体管理页" content="对用户上传的流媒体进行管理">
     <a-table :dataSource="dataSource" :columns="columns">
       <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'poster_path'">
-          <img :src="record?.poster_path" alt="poster_path" class="poster-img" />
+        <template v-if="column.key === 'posterPath'">
+          <img :src="baseUrl + '/' + record?.posterPath" alt="posterPath" class="poster-img" />
         </template>
-        <template v-else-if="column.key === 'dateCreated'">
-          <span>{{ formatToDateTime(record.dateCreated) }}</span>
+        <template v-else-if="column.key === 'createtime'">
+          <span>{{ formatToDateTime(record.createtime) }}</span>
+        </template>
+        <template v-else-if="column.key === 'isVip'">
+          <span>{{ record.isVip ? '是' : '否' }}</span>
         </template>
         <template v-else-if="column.key === 'genre'">
           <div class="tag-wrap">
@@ -42,17 +45,20 @@
 </template>
 <script lang="ts" setup>
   import { PageWrapper } from '/@/components/Page';
-  import { ref } from 'vue';
-  import listMovies from '/@/assets/json/listMovies.json';
+  import { ref, computed } from 'vue';
   import { formatToDateTime } from '/@/utils/dateUtil';
   import { Popconfirm, message } from 'ant-design-vue';
-  import { mediaList, delMedia } from '/@/api/sys/media';
+  import { mediaListByLabels, delMedia } from '/@/api/sys/media';
   import VideoEditModal from './VideoEditModal.vue';
   import { useModal } from '/@/components/Modal';
+  import { useUserStore } from '/@/store/modules/user';
+  import { getAppEnvConfig } from '/@/utils/env';
 
-  const dataSource = listMovies.list;
+  const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
+  const dataSource = ref([]);
   const [register, { openModal }] = useModal();
   const curMedia = ref<any>({});
+  const userStore = useUserStore();
 
   const columns = [
     {
@@ -62,19 +68,25 @@
     },
     {
       title: '流媒体海报',
-      dataIndex: 'poster_path',
-      key: 'poster_path',
+      dataIndex: 'posterPath',
+      key: 'posterPath',
     },
     {
       title: '上传时间',
-      dataIndex: 'dateCreated',
-      key: 'dateCreated',
+      dataIndex: 'createtime',
+      key: 'createtime',
     },
-    // {
-    //   title: '简介',
-    //   dataIndex: 'overview',
-    //   key: 'overview',
-    // },
+    {
+      title: '简介',
+      dataIndex: 'overview',
+      key: 'overview',
+    },
+    {
+      title: '只允许VIP观看',
+      dataIndex: 'isVip',
+      key: 'isVip',
+      width: 140,
+    },
     {
       title: '标签',
       dataIndex: 'genre',
@@ -85,6 +97,22 @@
       key: 'action',
     },
   ];
+
+  const httpList = async () => {
+    const userinfo = computed(() => userStore.getUserInfo);
+    let params = userinfo.value.labels;
+    // 管理员
+    if (userinfo.value?.roleList?.[0]?.id === 1) {
+      params = userStore.getTags.map((tag) => tag.id);
+    }
+    try {
+      const res = await mediaListByLabels(params);
+      dataSource.value = res;
+    } catch (e) {
+      message.error(`获取列表失败`);
+    }
+  };
+  httpList();
 
   const refreshList = () => {
     console.log('refreshList');

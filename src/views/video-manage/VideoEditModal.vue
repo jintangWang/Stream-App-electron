@@ -41,9 +41,10 @@
   import { BasicModal, useModalInner } from '/@/components/Modal/index';
   import { reactive } from 'vue';
   import { message, Select, Form } from 'ant-design-vue';
-  import { getUserTags } from '/@/api/sys/user';
   import { updateMedia } from '/@/api/sys/media';
+  import { useUserStore } from '/@/store/modules/user';
 
+  const userStore = useUserStore();
   const useForm = Form.useForm;
   const props = defineProps({
     info: Object as PropType<Recordable>,
@@ -58,7 +59,7 @@
   const formState = reactive<Record<string, any>>({
     isVip: false,
   });
-  const tagOptions: any[] = reactive([]);
+  const tagOptions: any[] = reactive(userStore.getTags);
 
   const rulesRef = reactive({
     title: [
@@ -77,16 +78,6 @@
 
   const [register, { closeModal }] = useModalInner();
   const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
-
-  async function httpTags() {
-    try {
-      const res = await getUserTags();
-      tagOptions.push(...res);
-    } catch (error) {
-      message.error(`获取用户标签失败！`);
-    }
-  }
-  httpTags();
 
   const handleSubmit = async () => {
     emit('updated');

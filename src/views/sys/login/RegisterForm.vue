@@ -75,7 +75,11 @@
   import { StrengthMeter } from '/@/components/StrengthMeter';
   // import { CountdownInput } from '/@/components/CountDown';
   import { useLoginState, useFormRules, useFormValid, LoginStateEnum } from './useLogin';
-  import { registerApi, getUserTags, nameDupliDetect } from '/@/api/sys/user';
+  import { registerApi, nameDupliDetect } from '/@/api/sys/user';
+  import { useUserStore } from '/@/store/modules/user';
+
+  const userStore = useUserStore();
+
   const FormItem = Form.Item;
   const InputPassword = Input.Password;
   const { handleBackLogin, getLoginState } = useLoginState();
@@ -90,22 +94,12 @@
     label: [],
   });
 
-  const tagOptions: any[] = reactive([]);
+  const tagOptions: any[] = reactive(userStore.getTags);
 
   const { getFormRules } = useFormRules(formData);
   const { validForm } = useFormValid(formRef);
 
   const getShow = computed(() => unref(getLoginState) === LoginStateEnum.REGISTER);
-
-  async function httpTags() {
-    try {
-      const res = await getUserTags();
-      tagOptions.push(...res);
-    } catch (error) {
-      message.error(`获取用户标签失败！`);
-    }
-  }
-  httpTags();
 
   async function handleRegister() {
     const data = await validForm();

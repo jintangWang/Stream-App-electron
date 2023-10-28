@@ -2,7 +2,11 @@
   <PageWrapper>
     <template #headerContent>
       <div class="flex items-center">
-        <Avatar :src="baseUrl + userinfo.avatar || headerImg" :size="72" class="!mx-auto !block" />
+        <Avatar
+          :src="baseUrl + '/' + userinfo.avatar || headerImg"
+          :size="72"
+          class="!mx-auto !block"
+        />
         <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
           <h1 class="md:text-lg text-md">{{ userinfo.username }}, 开始您一天的工作吧！</h1>
         </div>

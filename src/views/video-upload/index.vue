@@ -62,7 +62,6 @@
   import { PageWrapper } from '/@/components/Page';
   import { ref, reactive, computed } from 'vue';
   import { message, Button, Select, Form } from 'ant-design-vue';
-  import { getUserTags } from '/@/api/sys/user';
   import { BasicUpload } from '/@/components/Upload';
   import { uploadApi, delMedia, createMedia } from '/@/api/sys/upload';
   import { useUserStore } from '/@/store/modules/user';
@@ -78,7 +77,7 @@
     labelCol: { span: 6 },
     wrapperCol: { span: 14 },
   };
-  const tagOptions: any[] = reactive([]);
+  const tagOptions: any[] = reactive(userStore.getTags);
   const loading = ref(false);
 
   const rulesRef = reactive({
@@ -97,16 +96,6 @@
   });
 
   const { resetFields, validate, validateInfos } = useForm(formState, rulesRef);
-
-  async function httpTags() {
-    try {
-      const res = await getUserTags();
-      tagOptions.push(...res);
-    } catch (error) {
-      message.error(`获取用户标签失败！`);
-    }
-  }
-  httpTags();
 
   const handleDeleteUpload = async (record: Recordable) => {
     const filePath = record.responseData?.[0]?.url || '';

@@ -7,7 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { doLogout, getUserInfo, loginApi, getUserTags } from '/@/api/sys/user';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { usePermissionStore } from '/@/store/modules/permission';
@@ -23,6 +23,7 @@ interface UserState {
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
+  tags: any[];
 }
 
 export const useUserStore = defineStore({
@@ -38,6 +39,8 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+    // 标签库列表
+    tags: [],
   }),
   getters: {
     getUserInfo(): UserInfo {
@@ -54,6 +57,9 @@ export const useUserStore = defineStore({
     },
     getLastUpdateTime(): number {
       return this.lastUpdateTime;
+    },
+    getTags(): any[] {
+      return this.tags;
     },
   },
   actions: {
@@ -188,6 +194,17 @@ export const useUserStore = defineStore({
           await this.logout(true);
         },
       });
+    },
+    /**
+     * @description: 获取标签库并存储
+     */
+    async setTags() {
+      try {
+        const tags = await getUserTags();
+        this.tags = tags;
+      } catch {
+        console.log('获取标签库失败');
+      }
     },
   },
 });

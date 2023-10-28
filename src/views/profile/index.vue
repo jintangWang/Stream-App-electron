@@ -4,7 +4,7 @@
       <div class="base-info">
         <div class="row">
           <span class="label">用户头像</span>
-          <img :src="baseUrl + userinfo.avatar" alt="" class="w-60px mx-auto" />
+          <img :src="baseUrl + '/' + userinfo.avatar" alt="" class="w-60px mx-auto" />
         </div>
         <div class="row">
           <span class="label">用户名</span>
@@ -43,8 +43,8 @@
   import { useUserStore } from '/@/store/modules/user';
   import { getAppEnvConfig } from '/@/utils/env';
   import { Tag } from 'ant-design-vue';
-
   import { formSchema } from './profile.data';
+
   export default defineComponent({
     name: 'Profile',
     components: { BasicForm, PageWrapper },
