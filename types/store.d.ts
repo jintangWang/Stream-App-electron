@@ -40,6 +40,8 @@ export interface UserInfo {
   roles: RoleInfo[];
   roleList: RoleEnum[];
   labels?: any[];
+  imageCount?: number;
+  gender?: string;
 }
 
 export interface BeforeMiniState {

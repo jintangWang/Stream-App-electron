@@ -1,96 +1,140 @@
 <template>
-  <PageWrapper title="个人中心" content="修改密码成功后会自动退出当前登录！">
+  <PageWrapper title="个人中心" content="普通用户上传 5 个视频即可成为 VIP 用户，享受更多权益。">
     <div class="py-8 px-8 bg-white flex flex-col justify-center">
-      <div class="base-info">
-        <div class="row">
-          <span class="label">用户头像</span>
-          <img :src="baseUrl + '/' + userinfo.avatar" alt="" class="w-60px mx-auto" />
+      <a-form :model="formState" v-bind="formItemLayout">
+        <a-form-item label="用户头像" name="title">
+          <BasicUpload
+            v-model:value="avatarList"
+            helpText="上传头像，限制大小 2M 以下的图片"
+            :maxSize="2"
+            :maxNumber="1"
+            :api="uploadApi"
+            :accept="['image/*']"
+            @delete="handleDeleteUpload"
+            @preview-delete="handleDeleteUploadPreview"
+          />
+        </a-form-item>
+        <a-form-item label="用户名">
+          {{ userinfo.username }}
+        </a-form-item>
+        <a-form-item label="用户角色">
+          {{ userinfo.roleList?.[0].name }}
+        </a-form-item>
+        <a-form-item label="已上传视频数量">
+          {{ userinfo.imageCount }}
+        </a-form-item>
+        <a-form-item name="gender" label="用户性别">
+          <Select
+            v-model:value="formState.gender"
+            size="large"
+            :style="{ width: '200px' }"
+            placeholder="请选择自己的性别"
+            :options="[
+              { value: 'MALE', label: '男' },
+              { value: 'FEMALE', label: '女' },
+            ]"
+          />
+        </a-form-item>
+        <a-form-item name="labels" label="用户标签">
+          <Select
+            v-model:value="formState.labels"
+            size="large"
+            mode="multiple"
+            style="width: 100%"
+            placeholder="请选择自己的标签"
+            :options="tagOptions"
+            :field-names="{ label: 'name', value: 'id' }"
+          />
+        </a-form-item>
+        <div class="flex justify-center">
+          <a-button @click="resetForm"> 重置 </a-button>
+          <a-button class="!ml-4" type="primary" :loading="loading" @click="handleSubmit">
+            确认
+          </a-button>
         </div>
-        <div class="row">
-          <span class="label">用户名</span>
-          <span class="value">{{ userinfo.username }}</span>
-        </div>
-        <div class="row">
-          <span class="label">用户角色</span>
-          <span class="value">{{ userinfo.roleList?.[0].name }}</span>
-        </div>
-        <div class="row">
-          <span class="label">用户标签</span>
-          <span class="value">
-            <Tag v-for="label in userinfo.labels" :key="label">{{ label }}</Tag>
-            <span v-if="!userinfo.labels || userinfo.labels?.length === 0">--</span>
-          </span>
-        </div>
-        <!-- TODO 已上传视频数量 -->
-        <!-- <div class="row">
-          <span class="label">性别</span>
-          <span class="value">{{ userinfo.gender === 'MALE' ? '男' : '女' }}</span>
-        </div> -->
-      </div>
-
-      <BasicForm @register="register" />
-      <div class="flex justify-center">
-        <a-button @click="resetFields"> 重置 </a-button>
-        <a-button class="!ml-4" type="primary" @click="handleSubmit"> 确认 </a-button>
-      </div>
+      </a-form>
     </div>
   </PageWrapper>
 </template>
-<script lang="ts">
-  import { defineComponent, computed } from 'vue';
+<script lang="ts" setup>
+  import { reactive, computed, ref, watchEffect } from 'vue';
   import { PageWrapper } from '/@/components/Page';
-  import { BasicForm, useForm } from '/@/components/Form';
   import { useUserStore } from '/@/store/modules/user';
-  import { getAppEnvConfig } from '/@/utils/env';
-  import { Tag } from 'ant-design-vue';
-  import { formSchema } from './profile.data';
+  // import { getAppEnvConfig } from '/@/utils/env';
+  import { message, Select, Form } from 'ant-design-vue';
+  import { BasicUpload } from '/@/components/Upload';
+  import { uploadApi, delMedia } from '/@/api/sys/upload';
+  import { updateUser } from '/@/api/sys/user';
 
-  export default defineComponent({
-    name: 'Profile',
-    components: { BasicForm, PageWrapper },
-    setup() {
-      const { VITE_GLOB_API_URL } = getAppEnvConfig();
-      const [register, { validate, resetFields }] = useForm({
-        size: 'large',
-        labelAlign: 'left',
-        labelWidth: 100,
-        showActionButtonGroup: false,
-        schemas: formSchema,
-        labelCol: { span: 6 },
-        wrapperCol: { span: 16 },
-      });
+  // const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
+  const formItemLayout = {
+    labelCol: { span: 3 },
+    wrapperCol: { span: 18 },
+    labelAlign: 'left',
+  };
+  const useForm = Form.useForm;
+  const userStore = useUserStore();
+  const userinfo = computed(() => userStore.getUserInfo);
+  const tagOptions: any[] = reactive(userStore.getTags);
+  const loading = ref(false);
+  const formState = reactive<Record<string, any>>({});
+  // 已上传头像列表
+  const avatarList = ref<string[]>([]);
 
-      const userStore = useUserStore();
-      const userinfo = computed(() => userStore.getUserInfo);
+  const { resetFields, validate } = useForm(formState);
 
-      async function handleSubmit() {
-        try {
-          const values = await validate();
-          const { passwordOld, passwordNew } = values;
-
-          // TODO custom api
-          console.log(passwordOld, passwordNew);
-          // const { router } = useRouter();
-          // router.push(pageEnum.BASE_LOGIN);
-        } catch (error) {}
-      }
-
-      return { register, resetFields, handleSubmit, userinfo, baseUrl: VITE_GLOB_API_URL };
-    },
+  watchEffect(() => {
+    avatarList.value = userinfo.value?.avatar ? [userinfo.value?.avatar] : [];
+    formState.gender = userinfo.value?.gender;
+    formState.labels = userinfo.value?.labels || [];
   });
-</script>
-<style lang="less" scoped>
-  .base-info {
-    align-self: flex-start;
-  }
-  .row {
-    height: 40px;
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    .label {
-      width: 100px;
-      text-align: left;
+
+  const handleDeleteUpload = async (record: Recordable) => {
+    const filePath = record.responseData?.[0]?.url || '';
+    const fileName = filePath.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
+
+  const handleDeleteUploadPreview = async (url: string) => {
+    const fileName = url.split('/').pop() || '';
+    try {
+      await delMedia(fileName);
+    } catch (error) {
+      console.log(error);
+      message.error(`删除失败！`);
+    }
+  };
+
+  const resetForm = () => {
+    formState.labels = [];
+    resetFields();
+  };
+
+  async function handleSubmit() {
+    try {
+      await validate();
+    } catch (e) {
+      return;
+    }
+    try {
+      loading.value = true;
+      await updateUser(userinfo.value.userId, {
+        avatar: avatarList.value[0],
+        gender: formState.gender,
+        label: formState.labels.map((id) => ({ id: id })),
+      });
+      message.success(`更新成功！`);
+      resetForm();
+    } catch (error) {
+      message.error(`更新失败！`);
+    } finally {
+      loading.value = false;
     }
   }
-</style>
+</script>
+<style lang="less" scoped></style>

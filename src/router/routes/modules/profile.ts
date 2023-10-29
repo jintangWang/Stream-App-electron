@@ -23,6 +23,14 @@ const profile: AppRouteModule = {
         title: '个人中心',
       },
     },
+    {
+      path: 'change-pwd',
+      name: 'changePwdIndex',
+      component: () => import('/@/views/profile/ChangePwd.vue'),
+      meta: {
+        title: '修改密码',
+      },
+    },
   ],
 };
 

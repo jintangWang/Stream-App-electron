@@ -12,6 +12,11 @@
     <template #overlay>
       <Menu @click="handleMenuClick">
         <MenuItem key="profile" text="个人中心" icon="ant-design:user-outlined" />
+        <MenuItem
+          key="change-pwd"
+          text="修改密码"
+          icon="material-symbols:settings-photo-camera-outline"
+        />
         <MenuItem v-if="getUseLockPage" key="lock" text="锁定屏幕" icon="ion:lock-closed-outline" />
         <MenuItem key="logout" text="退出系统" icon="ion:power-outline" />
       </Menu>
@@ -37,7 +42,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'profile' | 'lock';
+  type MenuEvent = 'logout' | 'profile' | 'lock' | 'change-pwd';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -84,6 +89,9 @@
             break;
           case 'profile':
             goProfile();
+            break;
+          case 'change-pwd':
+            router.push('/profile/change-pwd');
             break;
           case 'lock':
             handleLock();
