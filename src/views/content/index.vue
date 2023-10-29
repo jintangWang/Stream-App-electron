@@ -1,6 +1,7 @@
 <template>
   <PageWrapper title="媒体库" content="欢迎查看系统中的流媒体">
     <swiper
+      v-if="dataSource && dataSource.length > 0"
       :cssMode="true"
       :pagination="true"
       :mousewheel="true"
@@ -35,6 +36,8 @@
         </div>
       </div>
     </section>
+
+    <Exception v-if="!dataSource || dataSource.length === 0" :status="10100" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -52,6 +55,7 @@
   import { mediaListByLabels } from '/@/api/sys/media';
   import { message } from 'ant-design-vue';
   import { ref, computed } from 'vue';
+  import Exception from '/@/views/sys/exception/Exception.vue';
 
   const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
   const userStore = useUserStore();
@@ -81,8 +85,13 @@
   httpList();
 
   const goInfo = (item) => {
-    console.log(item);
-    go('info');
+    go({
+      //@ts-ignore
+      path: 'info',
+      query: {
+        id: item.id,
+      },
+    });
   };
 </script>
 <style lang="less" scoped>

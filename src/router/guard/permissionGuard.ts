@@ -16,7 +16,6 @@ const ROOT_PATH = RootRoute.path;
 const whitePathList: PageEnum[] = [LOGIN_PATH];
 
 export function createPermissionGuard(router: Router) {
-  console.log('createPermissionGuard');
   const userStore = useUserStoreWithOut();
   const permissionStore = usePermissionStoreWithOut();
   router.beforeEach(async (to, from, next) => {

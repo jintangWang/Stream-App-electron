@@ -27,3 +27,10 @@ export const updateMedia = (imageId, params) => {
 export const delMedia = (imageId) => {
   return defHttp.delete<any>({ url: `/images/${imageId}` });
 };
+
+/**
+ * @description: 媒体资源详情
+ */
+export const mediaInfo = (imageId) => {
+  return defHttp.get<any>({ url: `/images/${imageId}` });
+};

@@ -4,17 +4,41 @@
       <div class="self-start">
         <p class="text-28px">{{ info.title }}</p>
         <p>{{ info.overview }}</p>
-        <Tag v-for="label in info.genre" :key="label.id">{{ label.name }}</Tag>
+        <p v-if="info.isVip">
+          <Tag color="red">仅允许 VIP 用户观看</Tag>
+        </p>
+        <Tag v-for="label in info.labels" :key="label.id">{{ label.name }}</Tag>
       </div>
-      <video class="w-full mt-8" src="/@/assets/json/5.mp4" controls></video>
+      <video
+        class="w-full mt-8 max-h-800px"
+        :poster="baseUrl + '/' + info.posterPath"
+        :src="baseUrl + '/' + info.url"
+        controls
+      ></video>
     </div>
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import listNewReleases from '/@/assets/json/listNewReleases.json';
-  import { reactive } from 'vue';
-  import { Tag } from 'ant-design-vue';
+  import { unref, ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { Tag, message } from 'ant-design-vue';
+  import { mediaInfo } from '/@/api/sys/media';
+  import { getAppEnvConfig } from '/@/utils/env';
 
-  const info = reactive(listNewReleases[0]?.movie);
+  const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
+  const info = ref<Recordable>({});
+  const { currentRoute } = useRouter();
+  const { query } = unref(currentRoute);
+
+  const httpInfo = async () => {
+    try {
+      const res = await mediaInfo(query?.id);
+      console.log(res);
+      info.value = res;
+    } catch (e) {
+      message.error('获取流媒体详情失败！');
+    }
+  };
+  httpInfo();
 </script>
 <style lang="less" scoped></style>
