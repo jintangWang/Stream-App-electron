@@ -42,6 +42,7 @@ export interface UserInfo {
   labels?: any[];
   imageCount?: number;
   gender?: string;
+  organization?: any;
 }
 
 export interface BeforeMiniState {

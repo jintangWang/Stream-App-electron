@@ -65,8 +65,10 @@
   import { BasicUpload } from '/@/components/Upload';
   import { uploadApi, delMedia } from '/@/api/sys/upload';
   import { updateUser } from '/@/api/sys/user';
+  import { useRedo } from '/@/hooks/web/usePage';
 
   // const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
+  const redo = useRedo();
   const formItemLayout = {
     labelCol: { span: 3 },
     wrapperCol: { span: 18 },
@@ -86,7 +88,7 @@
   watchEffect(() => {
     avatarList.value = userinfo.value?.avatar ? [userinfo.value?.avatar] : [];
     formState.gender = userinfo.value?.gender;
-    formState.labels = userinfo.value?.labels || [];
+    formState.labels = userinfo.value?.labels?.map((item) => item.id) || [];
   });
 
   const handleDeleteUpload = async (record: Recordable) => {
@@ -126,10 +128,12 @@
       await updateUser(userinfo.value.userId, {
         avatar: avatarList.value[0],
         gender: formState.gender,
+        organizationId: userinfo.value.organization?.id,
         label: formState.labels.map((id) => ({ id: id })),
       });
       message.success(`更新成功！`);
-      resetForm();
+      await userStore.getUserInfoAction();
+      redo();
     } catch (error) {
       message.error(`更新失败！`);
     } finally {

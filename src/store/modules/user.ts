@@ -7,7 +7,7 @@ import { PageEnum } from '/@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi, getUserTags } from '/@/api/sys/user';
+import { doLogout, getUserInfo, getNewUserInfo, loginApi, getUserTags } from '/@/api/sys/user';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
 import { usePermissionStore } from '/@/store/modules/permission';
@@ -131,15 +131,16 @@ export const useUserStore = defineStore({
     async getUserInfoAction(): Promise<UserInfo | null> {
       if (!this.getToken) return null;
       const userInfo = await getUserInfo();
-      this.setUserRole(userInfo);
+      const newUserInfo = await getNewUserInfo(userInfo?.userId);
+      this.setUserRole(newUserInfo);
       // if (isArray(roles)) {
       //   const roleList = roles.map((item) => item.name) as RoleEnum[];
       // } else {
       //   userInfo.roles = [];
       //   this.setRoleList([]);
       // }
-      this.setUserInfo(userInfo);
-      return userInfo;
+      this.setUserInfo(newUserInfo);
+      return newUserInfo;
     },
     setUserRole(userInfo) {
       const { changeRole } = usePermission();

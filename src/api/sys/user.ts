@@ -45,10 +45,20 @@ export function registerApi(params: LoginParams) {
 }
 
 /**
- * @description: getUserInfo
+ * @description: getUserInfo 有缓存版登录信息
  */
 export function getUserInfo() {
   return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+}
+
+/**
+ * @description: getUserInfo 无缓存版
+ */
+export function getNewUserInfo(userId) {
+  return defHttp.get<GetUserInfoModel>(
+    { url: `/users/userById/${userId}` },
+    { errorMessageMode: 'none' },
+  );
 }
 
 export function getPermCode() {
