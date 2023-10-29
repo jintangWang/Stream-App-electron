@@ -18,7 +18,7 @@
           {{ userinfo.username }}
         </a-form-item>
         <a-form-item label="用户角色">
-          {{ userinfo.roleList?.[0].name }}
+          {{ userinfo.roleList?.[0]?.name }}
         </a-form-item>
         <a-form-item label="已上传视频数量">
           {{ userinfo.imageCount }}

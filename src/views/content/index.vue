@@ -70,7 +70,7 @@
 
   const httpList = async () => {
     const userinfo = computed(() => userStore.getUserInfo);
-    let params = userinfo.value.labels;
+    let params = userinfo.value.labels?.map((tag) => tag.id);
     // 管理员
     if (userinfo.value?.roleList?.[0]?.id === 1) {
       params = userStore.getTags.map((tag) => tag.id);

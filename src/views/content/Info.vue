@@ -33,7 +33,6 @@
   const httpInfo = async () => {
     try {
       const res = await mediaInfo(query?.id);
-      console.log(res);
       info.value = res;
     } catch (e) {
       message.error('获取流媒体详情失败！');
