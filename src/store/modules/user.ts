@@ -139,7 +139,7 @@ export const useUserStore = defineStore({
       //   userInfo.roles = [];
       //   this.setRoleList([]);
       // }
-      this.setUserInfo(newUserInfo);
+      this.setUserInfo({ ...newUserInfo, avatar: newUserInfo.avatar || 'avatar.jpg' });
       return newUserInfo;
     },
     setUserRole(userInfo) {
