@@ -104,6 +104,10 @@
 
   const handleDeleteUploadPreview = async (url: string) => {
     const fileName = url.split('/').pop() || '';
+    if (fileName === 'avatar.jpg') {
+      // 默认头像不需要调接口
+      return;
+    }
     try {
       await delMedia(fileName);
     } catch (error) {
