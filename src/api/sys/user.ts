@@ -113,3 +113,16 @@ export function setUserVIP(userId: any) {
     },
   });
 }
+
+/**
+ * @description: 修改密码
+ * @param params.username
+ * @param params.password
+ * @param params.userid
+ */
+export function updatePwd(params: any) {
+  return defHttp.post<any>({
+    url: `/updatePassword`,
+    params,
+  });
+}

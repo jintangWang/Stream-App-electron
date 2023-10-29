@@ -175,10 +175,14 @@ export const useUserStore = defineStore({
           console.log('注销Token失败');
         }
       }
+      this.clearLoginInfo();
+      goLogin && router.push(PageEnum.BASE_LOGIN);
+    },
+
+    clearLoginInfo() {
       this.setToken(undefined);
       this.setSessionTimeout(false);
       this.setUserInfo(null);
-      goLogin && router.push(PageEnum.BASE_LOGIN);
     },
 
     /**
