@@ -33,6 +33,7 @@
   import { Avatar } from 'ant-design-vue';
   import { computed } from 'vue';
   import headerImg from '/@/assets/images/header.jpg';
+  // import { message } from 'ant-design-vue';
 
   const userStore = useUserStore();
   const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
@@ -76,5 +77,10 @@
     useSearchForm: false,
     showTableSetting: true,
     bordered: true,
+    // dataSource: dataSource.value,
+    pagination: false,
+    afterFetch: (data) => {
+      return (data || []).filter((item) => item?.user?.username === userinfo.value.username);
+    },
   });
 </script>
