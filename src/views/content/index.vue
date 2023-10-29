@@ -28,7 +28,11 @@
     </swiper>
 
     <section class="media-list">
-      <div v-for="item in dataSource || []" :key="'movie' + item?.id" class="media-list-item">
+      <div
+        v-for="item in dataSource.slice((curPage - 1) * 10, curPage * 10) || []"
+        :key="'movie' + item?.id"
+        class="media-list-item"
+      >
         <img :src="baseUrl + '/' + item?.posterPath" alt="" class="item-poster" />
         <div class="item-mask">
           <h3 class="release-title">{{ item?.title }}</h3>
@@ -36,6 +40,10 @@
         </div>
       </div>
     </section>
+
+    <div class="mt-12px flex justify-end">
+      <a-pagination v-model:current="curPage" :total="dataSource.length" show-less-items />
+    </div>
 
     <Exception v-if="!dataSource || dataSource.length === 0" :status="10100" />
   </PageWrapper>
@@ -67,6 +75,7 @@
   const modules = [Navigation, Pagination, Mousewheel, Keyboard, Autoplay];
 
   const dataSource = ref<any[]>([]);
+  const curPage = ref<number>(1);
 
   const httpList = async () => {
     const userinfo = computed(() => userStore.getUserInfo);
