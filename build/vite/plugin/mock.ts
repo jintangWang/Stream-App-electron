@@ -10,10 +10,5 @@ export function configMockPlugin(isBuild: boolean) {
     mockPath: 'mock',
     localEnabled: !isBuild,
     prodEnabled: isBuild,
-    injectCode: `
-      import { setupProdMockServer } from '../mock/_createProductionServer';
-
-      setupProdMockServer();
-      `,
   });
 }
