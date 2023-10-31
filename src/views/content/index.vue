@@ -64,6 +64,7 @@
   import { message } from 'ant-design-vue';
   import { ref, computed } from 'vue';
   import Exception from '/@/views/sys/exception/Exception.vue';
+  import { RoleEnum } from '/@/enums/roleEnum';
 
   const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
   const userStore = useUserStore();
@@ -79,13 +80,15 @@
 
   const httpList = async () => {
     const userinfo = computed(() => userStore.getUserInfo);
+    let isVip = userStore.getRoleList?.[0] === RoleEnum.VIP;
     let params = userinfo.value.labels?.map((tag) => tag.id);
     // 管理员
     if (userinfo.value?.roleList?.[0]?.id === 1) {
+      isVip = true;
       params = userStore.getTags.map((tag) => tag.id);
     }
     try {
-      const res = await mediaListByLabels(params);
+      const res = await mediaListByLabels(isVip, params);
       dataSource.value = res;
     } catch (e) {
       message.error(`获取列表失败`);

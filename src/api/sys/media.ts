@@ -10,8 +10,8 @@ export const mediaList = (params) => {
 /**
  * @description: 根据 labels 获取媒体资源列表
  */
-export const mediaListByLabels = (labelIds) => {
-  return defHttp.post<any>({ url: '/images/getAllByLabelIds', params: labelIds });
+export const mediaListByLabels = (isVip, labelIds) => {
+  return defHttp.post<any>({ url: `/images/getAllByLabelIds?isvip=${isVip}`, params: labelIds });
 };
 
 /**
