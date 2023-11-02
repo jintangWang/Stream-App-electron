@@ -152,7 +152,7 @@
           posterPath: formState.posterPath?.[0],
           url: formState.url?.[0],
           isVip: formState.isVip,
-          labels: formState.labels.map((id) => ({ id: id })),
+          labels: (formState.labels || []).map((id) => ({ id: id })),
         },
         user: {
           id: userinfo.value.userId,
