@@ -10,16 +10,7 @@
       <template #action="{ record }">
         <TableAction
           :actions="[
-            searchInfo.roleId === 3
-              ? {
-                  icon: 'material-symbols:volunteer-activism-outline-sharp',
-                  tooltip: '设置为VIP用户',
-                  popConfirm: {
-                    title: '是否确认开通其VIP权限',
-                    confirm: handleEdit.bind(null, record),
-                  },
-                }
-              : {},
+            getActionIcon(record),
             record.username !== 'admin'
               ? {
                   icon: 'ant-design:delete-outlined',
@@ -42,7 +33,7 @@
 
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { getAccountList, delAccount } from '/@/api/demo/system';
-  import { setUserVIP } from '/@/api/sys/user';
+  import { setUserVIP, revokeUserVIP } from '/@/api/sys/user';
   import { PageWrapper } from '/@/components/Page';
   import RoleTree from './RoleTree.vue';
   import { message } from 'ant-design-vue';
@@ -86,6 +77,41 @@
         },
       });
 
+      function getActionIcon(record: Recordable) {
+        if (searchInfo.roleId === 2) {
+          return {
+            icon: 'line-md:cancel',
+            tooltip: '取消VIP权限',
+            popConfirm: {
+              title: '是否取消其VIP权限？',
+              confirm: handleRevoke.bind(null, record),
+            },
+          };
+        } else if (searchInfo.roleId === 3) {
+          return {
+            icon: 'material-symbols:volunteer-activism-outline-sharp',
+            tooltip: '设置为VIP用户',
+            popConfirm: {
+              title: '是否确认开通其VIP权限？',
+              confirm: handleEdit.bind(null, record),
+            },
+          };
+        } else {
+          return {};
+        }
+      }
+
+      async function handleRevoke(record: Recordable) {
+        console.log(record);
+        try {
+          await revokeUserVIP(record.id);
+          message.success(`取消VIP权限成功！`);
+          reload();
+        } catch (error) {
+          message.error(`取消VIP权限失败！`);
+        }
+      }
+
       async function handleEdit(record: Recordable) {
         console.log(record);
         try {
@@ -126,6 +152,8 @@
 
       return {
         registerTable,
+        getActionIcon,
+        handleRevoke,
         handleEdit,
         handleDelete,
         handleSuccess,

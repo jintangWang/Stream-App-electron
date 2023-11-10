@@ -125,6 +125,18 @@ export function setUserVIP(userId: any) {
 }
 
 /**
+ * @description: 取消 VIP，设置为普通用户
+ */
+export function revokeUserVIP(userId: any) {
+  return defHttp.put<LoginResultModel>({
+    url: `/roles/3/users`,
+    params: {
+      userIds: [userId],
+    },
+  });
+}
+
+/**
  * @description: 修改密码
  * @param params.username
  * @param params.password
