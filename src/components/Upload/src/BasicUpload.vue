@@ -97,7 +97,10 @@
       }
 
       function handleDelete(record: Recordable) {
-        emit('delete', record);
+        // 只有上传上去了只需要调接口，否则执行默认删除
+        if (record.responseData) {
+          emit('delete', record);
+        }
       }
 
       function handlePreviewDelete(url: string) {
