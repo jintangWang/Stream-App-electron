@@ -11,8 +11,9 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem key="profile" text="个人中心" icon="ant-design:user-outlined" />
+        <MenuItem v-if="!isGuest" key="profile" text="个人中心" icon="ant-design:user-outlined" />
         <MenuItem
+          v-if="!isGuest"
           key="change-pwd"
           text="修改密码"
           icon="material-symbols:settings-photo-camera-outline"
@@ -35,7 +36,7 @@
   import { useI18n } from '/@/hooks/web/useI18n';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
-
+  import { RoleEnum } from '/@/enums/roleEnum';
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
   import { getAppEnvConfig } from '/@/utils/env';
@@ -61,6 +62,8 @@
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
       const userStore = useUserStore();
+
+      let isGuest = userStore.getRoleList?.[0] === RoleEnum.GUEST;
 
       const getUserInfo = computed(() => {
         const { realName = '', avatar, desc } = userStore.getUserInfo || {};
@@ -108,6 +111,7 @@
         register,
         getUseLockPage,
         baseUrl: VITE_GLOB_API_URL,
+        isGuest,
       };
     },
   });
