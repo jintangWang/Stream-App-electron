@@ -32,7 +32,9 @@
       </Button>
     </FormItem>
     <ARow class="enter-x" justify="space-between">
-      <ACol :md="8" :xs="24" />
+      <ACol :md="8" :xs="24">
+        <Button block @click="handleGuestLogin" :loading="guestLoading">游客登录</Button>
+      </ACol>
       <ACol :md="6" :xs="24">
         <Button block @click="setLoginState(LoginStateEnum.REGISTER)">注册</Button>
       </ACol>
@@ -62,11 +64,14 @@
 
   const formRef = ref();
   const loading = ref(false);
+  const guestLoading = ref(false);
 
   // 如果 account 改为 username 会自动填充 admin，鬼知道这什么奇葩 bug
   const formData = reactive({
-    account: 'admin',
-    password: '123456',
+    account: '',
+    password: '',
+    // account: 'admin',
+    // password: '123456',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -101,6 +106,33 @@
       });
     } finally {
       loading.value = false;
+    }
+  }
+
+  async function handleGuestLogin() {
+    try {
+      guestLoading.value = true;
+      const userInfo = await userStore.login({
+        password: 'guest',
+        username: 'guest',
+        mode: 'none', //不要默认的错误提示
+      });
+      if (userInfo) {
+        notification.success({
+          message: '登陆成功',
+          description: `欢迎回来: ${userInfo.username}`,
+          duration: 3,
+        });
+      }
+    } catch (error) {
+      console.log('handleLogin', error);
+      createErrorModal({
+        title: '错误提示',
+        content: (error as unknown as Error).message || '网络异常，请检查您的网络连接是否正常!',
+        getContainer: () => document.body.querySelector(`.${prefixCls}`) || document.body,
+      });
+    } finally {
+      guestLoading.value = false;
     }
   }
 </script>

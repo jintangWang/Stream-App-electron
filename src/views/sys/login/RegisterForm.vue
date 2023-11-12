@@ -88,9 +88,12 @@
   const loading = ref(false);
 
   const formData = reactive({
-    account: '张三',
-    password: '123456',
-    confirmPassword: '123456',
+    // account: '张三',
+    // password: '123456',
+    // confirmPassword: '123456',
+    account: '',
+    password: '',
+    confirmPassword: '',
     label: [],
   });
 
