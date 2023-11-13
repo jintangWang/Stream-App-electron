@@ -139,7 +139,8 @@
       await userStore.getUserInfoAction();
       redo();
     } catch (error) {
-      message.error(`更新失败！`);
+      // @ts-ignore
+      message.error(error?.message || `更新失败！`);
     } finally {
       loading.value = false;
     }
