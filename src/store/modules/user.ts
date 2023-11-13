@@ -123,7 +123,10 @@ export const useUserStore = defineStore({
           permissionStore.setDynamicAddedRoute(true);
         }
         this.setUserRole(userInfo);
-        this.setUserInfo({ ...userInfo, avatar: userInfo.avatar || 'avatar.jpg' });
+        this.setUserInfo({
+          ...userInfo,
+          // avatar: userInfo.avatar || 'avatar.jpg'
+        });
         goHome && (await router.replace((userInfo as UserInfo)?.homePath || PageEnum.BASE_HOME));
       }
       return userInfo;
@@ -139,7 +142,10 @@ export const useUserStore = defineStore({
       //   userInfo.roles = [];
       //   this.setRoleList([]);
       // }
-      this.setUserInfo({ ...newUserInfo, avatar: newUserInfo.avatar || 'avatar.jpg' });
+      this.setUserInfo({
+        ...newUserInfo,
+        // avatar: newUserInfo.avatar || 'avatar.jpg'
+      });
       return newUserInfo;
     },
     setUserRole(userInfo) {

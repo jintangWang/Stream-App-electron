@@ -1,7 +1,7 @@
 <template>
   <Dropdown placement="bottomLeft" :overlayClassName="`${prefixCls}-dropdown-overlay`">
     <span :class="[prefixCls, `${prefixCls}--${theme}`]" class="flex">
-      <img :class="`${prefixCls}__header`" :src="baseUrl + '/' + getUserInfo.avatar" />
+      <img :class="`${prefixCls}__header`" :src="handleAvatar(getUserInfo.avatar)" />
       <span :class="`${prefixCls}__info hidden md:block`">
         <span :class="`${prefixCls}__name  `" class="truncate">
           {{ getUserInfo.realName }}
@@ -37,9 +37,8 @@
   import { useDesign } from '/@/hooks/web/useDesign';
   import { useModal } from '/@/components/Modal';
   import { RoleEnum } from '/@/enums/roleEnum';
-  import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
-  import { getAppEnvConfig } from '/@/utils/env';
+  import { handleAvatar } from '/@/utils/helper/imgHelper';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
@@ -57,7 +56,6 @@
       theme: propTypes.oneOf(['dark', 'light']),
     },
     setup() {
-      const { VITE_GLOB_API_URL } = getAppEnvConfig();
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
@@ -67,7 +65,7 @@
 
       const getUserInfo = computed(() => {
         const { realName = '', avatar, desc } = userStore.getUserInfo || {};
-        return { realName, avatar: avatar || headerImg, desc };
+        return { realName, avatar, desc };
       });
 
       const [register, { openModal }] = useModal();
@@ -110,8 +108,8 @@
         getShowDoc,
         register,
         getUseLockPage,
-        baseUrl: VITE_GLOB_API_URL,
         isGuest,
+        handleAvatar,
       };
     },
   });

@@ -8,7 +8,7 @@
   >
     <div :class="`${prefixCls}__entry`">
       <div :class="`${prefixCls}__header`">
-        <img :src="avatar" :class="`${prefixCls}__header-img`" />
+        <img :src="handleAvatar(avatar)" :class="`${prefixCls}__header-img`" />
         <p :class="`${prefixCls}__header-name`">
           {{ getRealName }}
         </p>
@@ -18,7 +18,7 @@
 
       <div :class="`${prefixCls}__footer`">
         <a-button type="primary" block class="mt-2" @click="handleLock">
-          {{ "锁定" }}
+          {{ '锁定' }}
         </a-button>
       </div>
     </div>
@@ -33,7 +33,8 @@
 
   import { useUserStore } from '/@/store/modules/user';
   import { useLockStore } from '/@/store/modules/lock';
-  import headerImg from '/@/assets/images/header.jpg';
+  import { handleAvatar } from '/@/utils/helper/imgHelper';
+
   export default defineComponent({
     name: 'LockModal',
     components: { BasicModal, BasicForm },
@@ -52,7 +53,7 @@
         schemas: [
           {
             field: 'password',
-            label: "锁屏密码",
+            label: '锁屏密码',
             colProps: {
               span: 24,
             },
@@ -76,7 +77,7 @@
 
       const avatar = computed(() => {
         const { avatar } = userStore.getUserInfo;
-        return avatar || headerImg;
+        return avatar;
       });
 
       return {
@@ -87,6 +88,7 @@
         registerForm,
         handleLock,
         avatar,
+        handleAvatar,
       };
     },
   });

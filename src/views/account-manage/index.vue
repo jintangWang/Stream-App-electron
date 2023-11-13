@@ -4,7 +4,7 @@
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #bodyCell="{ column, text }">
         <template v-if="column.dataIndex === 'avatar'">
-          <img :src="baseUrl + text" alt="" class="w-40px mx-auto" />
+          <img :src="handleAvatar(text)" alt="" class="w-40px mx-auto" />
         </template>
       </template>
       <template #action="{ record }">
@@ -37,16 +37,14 @@
   import { PageWrapper } from '/@/components/Page';
   import RoleTree from './RoleTree.vue';
   import { message } from 'ant-design-vue';
-
+  import { handleAvatar } from '/@/utils/helper/imgHelper';
   import { columns, searchFormSchema } from './account.data';
   // import { useGo } from '/@/hooks/web/usePage';
-  import { getAppEnvConfig } from '/@/utils/env';
 
   export default defineComponent({
     name: 'AccountManagement',
     components: { BasicTable, PageWrapper, RoleTree, TableAction },
     setup() {
-      const { VITE_GLOB_API_URL } = getAppEnvConfig();
       // const go = useGo();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
@@ -159,7 +157,7 @@
         handleSuccess,
         handleSelect,
         searchInfo,
-        baseUrl: VITE_GLOB_API_URL,
+        handleAvatar,
       };
     },
   });

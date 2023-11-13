@@ -10,7 +10,7 @@
       v-show="showDate"
     >
       <LockOutlined />
-      <span>{{"点击解锁"}}</span>
+      <span>{{ '点击解锁' }}</span>
     </div>
 
     <div class="flex w-screen h-screen justify-center items-center">
@@ -28,7 +28,7 @@
       <div :class="`${prefixCls}-entry`" v-show="!showDate">
         <div :class="`${prefixCls}-entry-content`">
           <div :class="`${prefixCls}-entry__header enter-x`">
-            <img :src="userinfo.avatar || headerImg" :class="`${prefixCls}-entry__header-img`" />
+            <img :src="handleAvatar(userinfo.avatar)" :class="`${prefixCls}-entry__header-img`" />
             <p :class="`${prefixCls}-entry__header-name`">
               {{ userinfo.realName }}
             </p>
@@ -39,7 +39,7 @@
             v-model:value="password"
           />
           <span :class="`${prefixCls}-entry__err-msg enter-x`" v-if="errMsg">
-            {{ "锁屏密码错误" }}
+            {{ '锁屏密码错误' }}
           </span>
           <div :class="`${prefixCls}-entry__footer enter-x`">
             <a-button
@@ -49,7 +49,7 @@
               :disabled="loading"
               @click="handleShowForm(true)"
             >
-              {{ "返回" }}
+              {{ '返回' }}
             </a-button>
             <a-button
               type="link"
@@ -58,10 +58,10 @@
               :disabled="loading"
               @click="goLogin"
             >
-              {{ "返回登录" }}
+              {{ '返回登录' }}
             </a-button>
             <a-button class="mt-2" type="link" size="small" @click="unLock()" :loading="loading">
-              {{ "进入系统" }}
+              {{ '进入系统' }}
             </a-button>
           </div>
         </div>
@@ -81,11 +81,10 @@
   import { Input } from 'ant-design-vue';
   import { useUserStore } from '/@/store/modules/user';
   import { useLockStore } from '/@/store/modules/lock';
-  import { useI18n } from '/@/hooks/web/useI18n';
   import { useNow } from './useNow';
   import { useDesign } from '/@/hooks/web/useDesign';
   import { LockOutlined } from '@ant-design/icons-vue';
-  import headerImg from '/@/assets/images/header.jpg';
+  import { handleAvatar } from '/@/utils/helper/imgHelper';
 
   const InputPassword = Input.Password;
 
@@ -99,8 +98,6 @@
   const userStore = useUserStore();
 
   const { hour, month, minute, meridiem, year, day, week } = useNow(true);
-
-  const { t } = useI18n();
 
   const userinfo = computed(() => {
     return userStore.getUserInfo || {};

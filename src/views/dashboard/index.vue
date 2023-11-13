@@ -2,11 +2,7 @@
   <PageWrapper>
     <template #headerContent>
       <div class="flex items-center">
-        <Avatar
-          :src="baseUrl + '/' + userinfo.avatar || headerImg"
-          :size="72"
-          class="!mx-auto !block"
-        />
+        <Avatar :src="handleAvatar(userinfo.avatar)" :size="72" class="!mx-auto !block" />
         <div class="md:ml-6 flex flex-col justify-center md:mt-0 mt-2">
           <h1 class="md:text-lg text-md">{{ userinfo.username }}, 开始您一天的工作吧！</h1>
         </div>
@@ -28,15 +24,13 @@
   import { BasicTable, useTable } from '/@/components/Table';
   import { BasicColumn } from '/@/components/Table';
   import eventType from '/@/assets/json/eventType.json';
-  import { getAppEnvConfig } from '/@/utils/env';
   import { useUserStore } from '/@/store/modules/user';
   import { Avatar } from 'ant-design-vue';
   import { computed } from 'vue';
-  import headerImg from '/@/assets/images/header.jpg';
   // import { message } from 'ant-design-vue';
+  import { handleAvatar } from '/@/utils/helper/imgHelper';
 
   const userStore = useUserStore();
-  const { VITE_GLOB_API_URL: baseUrl } = getAppEnvConfig();
 
   const userinfo = computed(() => userStore.getUserInfo);
 
