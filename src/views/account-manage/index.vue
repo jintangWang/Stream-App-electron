@@ -11,7 +11,7 @@
         <TableAction
           :actions="[
             getActionIcon(record),
-            record.username !== 'admin'
+            record.username !== 'admin' && record.username !== 'guest'
               ? {
                   icon: 'ant-design:delete-outlined',
                   color: 'error',
